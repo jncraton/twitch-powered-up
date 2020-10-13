@@ -8,7 +8,6 @@ const OAUTH_TOKEN = ''
 const CHANNEL_NAME = 'twitchpoweredup'
 let speed = 0
 
-
 function main () {
   connectToTwitch()
 }
@@ -46,14 +45,12 @@ function parse (message) {
   return value
 }
 
-
 function onMessageHandler (target, context, msg, self) {
   // Ignore messages from the bot such as shout messages for user commands
   if (self) { return }
 
   // Remove whitespace from chat message
   const commandName = msg.trim()
-
 
   const value = parse(commandName)
   // console.log(commandName)
