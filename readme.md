@@ -1,6 +1,8 @@
 Twitch Powered Up
 =================
 
+[![Build Status](https://travis-ci.com/jncraton/twitch-powered-up.svg?token=yQJxZLQNAHqWRpN2k3wf&branch=master)](https://travis-ci.com/jncraton/twitch-powered-up)
+
 Software to interact with the LEGO Powered Up elements via Twitch.tv chat using a Raspberry Pi.
 
 Overview
@@ -30,3 +32,8 @@ This software has been designed and tested to run on a Raspberry Pi 4, but it sh
 - Medium Linear Motor (45303)
 - Light (88005)
 - Train Motor (88011)
+
+Contributing
+------------
+
+Contributions to this project are welcome. If you have suggestions for features, improvements, or bug fixes, please suggest them via Issues or Pull Requests. For our Javascript code, we follow [Standard JS](https://standardjs.com/) style.
