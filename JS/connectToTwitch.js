@@ -6,6 +6,7 @@ const tmi = require('tmi.js')
 const BOT_USERNAME = 'twitchpoweredup'
 const OAUTH_TOKEN = ''
 const CHANNEL_NAME = 'twitchpoweredup'
+let speed = 0
 
 function main () {
   connectToTwitch()
@@ -32,6 +33,18 @@ function connectToTwitch () {
   client.connect()
 }
 
+// -1 means that nothing useful is passed
+function parse (message) {
+  let value = -1
+  if (message === 'Stop') {
+    value = 0
+  } else if (message === 'Go') {
+    value = 1
+  }
+  console.log('our value is:', value)
+  return value
+}
+
 function onMessageHandler (target, context, msg, self) {
   // Ignore messages from the bot such as shout messages for user commands
   if (self) { return }
@@ -39,7 +52,17 @@ function onMessageHandler (target, context, msg, self) {
   // Remove whitespace from chat message
   const commandName = msg.trim()
 
-  console.log(commandName)
+  const value = parse(commandName)
+  // console.log(commandName)
+  if (value === 0 && speed > 0) {
+    speed--
+    console.log('our speed is now:', speed)
+  } else if (value === 1) {
+    speed++
+    console.log('our speed is now:', speed)
+  } else {
+    console.log('no parseable command was entered!')
+  }
 }
 
 // shows that we have connected to the twitch account
