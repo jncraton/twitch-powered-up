@@ -1,11 +1,12 @@
 'use strict'
 // import the js library needed to work in twitch
 const tmi = require('tmi.js')
+var CONFIG = require('./config.json')
 
 // basic username and channel name for our specfic project Oauth_token is found in the config file
-const BOT_USERNAME = 'twitchpoweredup'
-const OAUTH_TOKEN = ''
-const CHANNEL_NAME = 'twitchpoweredup'
+const BOT_USERNAME = CONFIG.BOT_USERNAME
+const OAUTH_TOKEN = CONFIG.AUTHTOKEN
+const CHANNEL_NAME = CONFIG.CHANNEL_NAME
 let speed = 0
 
 function main () {
