@@ -1,29 +1,33 @@
-const { createBluetooth } = require('node-ble')
+const PoweredUP = require('node-poweredup')
+const poweredUP = new PoweredUP.PoweredUP()
 
-async function main () {
-  console.log('start')
-  const { bluetooth, destroy } = createBluetooth()
-  const adapter = await bluetooth.defaultAdapter()
+poweredUP.on('discover', async (hub) => {
+  console.log(`Discovered ${hub.name}`)
 
-  console.log('got adapter')
-  console.log(adapter)
+  await hub.connect()
+  console.log('Connected')
 
-  if (!await adapter.isDiscovering()) {
-    await adapter.startDiscovery()
-  }
+  console.log('Waiting for motorA...')
+  const motorA = await hub.waitForDeviceAtPort('A') // Make sure a motor is plugged into port A
+  console.log('Connected to motorA')
 
-  console.log('start searching for bluetooth device')
+  console.log('Running motor A at speed 100 for 2 seconds')
+  motorA.setPower(100) // Run a motor attached to port A for 2 seconds at maximum speed (100) then stop
+  await hub.sleep(2000)
+  motorA.brake()
+  await hub.sleep(1000) // Do nothing for 1 second
 
-  const device = await adapter.waitDevice('90:84:2B:18:B1:A8')
-  await device.connect()
+  console.log('Running motor A at speed -30 for 1 second')
+  motorA.setPower(-30) // Run a motor attached to port A for 2 seconds at 1/2 speed in reverse (-50) then stop
+  await hub.sleep(2000)
+  motorA.brake()
+  await hub.sleep(1000) // Do nothing for 1 second
 
-  console.log('connected')
-  console.log(device)
+  await hub.disconnect()
+  console.log(`Disconnected ${hub.name}`)
+  poweredUP.stop()
+  process.exit(0)
+})
 
-  await device.disconnect()
-  destroy()
-}
-
-main()
-  .then(console.log)
-  .catch(console.error)
+poweredUP.scan() // Start scanning for Hubs
+console.log('Scanning for Hubs...')
