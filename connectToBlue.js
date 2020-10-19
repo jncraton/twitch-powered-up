@@ -1,5 +1,6 @@
 const PoweredUP = require('node-poweredup')
 const poweredUP = new PoweredUP.PoweredUP()
+
 poweredUP.scan() // Start scanning for Hubs
 console.log('Scanning for Hubs...')
 
