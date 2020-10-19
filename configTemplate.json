@@ -4,21 +4,21 @@
             "name":"hub0example",
             "movement":"00",
             "braking":"0.0",
-            "macAddress":"00:0a:95:9d:68:16"
+            "macAddress":"00:00:00:00:00:00"
         },
         "hub1example":{
             "name":"hub1example",
             "movement":"00",
             "braking":"0.0",
-            "macAddress":"00:0a:95:9d:68:16"
+            "macAddress":"00:00:00:00:00:00"
         },
         "hub2example":{
             "name":"hub2example",
             "movement":"00",
             "braking":"0.0",
-            "macAddress":"00:0a:95:9d:68:16"
+            "macAddress":"00:00:00:00:00:00"
         }
     },
     "AUTHTOKEN" : "OO-EE-OO-AH-AH-TING-TANG-WALA-WALA-BING-BANG",
-    "REFRESHTOKEN" : "SUP-ERK-ALI-FRA-GIL-IST-IKE-XPI-ALI-GET-IS-CH"
+    "REFRESHTOKEN" : "SUP-ERK-ALI-FRA-GIL-IST-IKE-XPI-ALI-DO-SI-CH"
 }
