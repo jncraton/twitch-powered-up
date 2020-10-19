@@ -2,14 +2,14 @@ const PoweredUP = require('node-poweredup')
 const poweredUP = new PoweredUP.PoweredUP()
 
 poweredUP.on('discover', async (hub) => {
-  console.log(`Discovered ${hub.name}!`)
+  console.log(`Discovered ${hub.name}`)
 
   await hub.connect()
   console.log('Connected')
 
   console.log('Waiting for motorA...')
   const motorA = await hub.waitForDeviceAtPort('A') // Make sure a motor is plugged into port A
-  console.log('Connected to motorA!')
+  console.log('Connected to motorA')
 
   console.log('Running motor A at speed 100 for 2 seconds')
   motorA.setPower(100) // Run a motor attached to port A for 2 seconds at maximum speed (100) then stop
@@ -24,7 +24,9 @@ poweredUP.on('discover', async (hub) => {
   await hub.sleep(1000) // Do nothing for 1 second
 
   await hub.disconnect()
-  console.log(`Disconnected ${hub.name}!`)
+  console.log(`Disconnected ${hub.name}`)
+  poweredUP.stop()
+  process.exit(0)
 })
 
 poweredUP.scan() // Start scanning for Hubs
