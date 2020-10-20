@@ -1,7 +1,7 @@
 Twitch Powered Up
 =================
 
-[![Build Status](https://travis-ci.com/jncraton/twitch-powered-up.svg?token=yQJxZLQNAHqWRpN2k3wf&branch=master)](https://travis-ci.com/jncraton/twitch-powered-up)
+![build](https://github.com/jncraton/twitch-powered-up/workflows/build/badge.svg)
 
 Software to interact with the LEGO Powered Up elements via Twitch.tv chat using a Raspberry Pi.
 
