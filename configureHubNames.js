@@ -1,6 +1,7 @@
 'use strict'
 
 const fs = require('fs');
+const readline = require('readline');
 const PoweredUP = require('node-poweredup');
 const poweredUP = new PoweredUP.PoweredUP();
 
@@ -21,8 +22,14 @@ function scanAndConnectToHubs() {
 }
 
 function promptUserForHubNames(){
-    console.log("Name for new hub: ");
-    return readline();
+    let rl = readline.createInterface(
+        process.stdin, process.stdout);    
+    rl.setPrompt(`Name for new hub: `);
+    rl.prompt()
+    rl.on('line', (hubName) => {
+        rl.close();
+    });
+    return hubName;
 }
 
 function confirmHubName(hub) {
