@@ -4,6 +4,8 @@ const fs = require('fs');
 const readline = require('readline');
 const PoweredUP = require('node-poweredup');
 const poweredUP = new PoweredUP.PoweredUP();
+let rl = readline.createInterface(
+    process.stdin, process.stdout);   
 
 function main() {
     scanAndConnectToHubs();    
@@ -21,16 +23,13 @@ function scanAndConnectToHubs() {
     });
 }
 
-function promptUserForHubNames(){
-    let rl = readline.createInterface(
-        process.stdin, process.stdout);    
-    rl.setPrompt(`Name for new hub: `);
-    rl.prompt()
-    rl.on('line', (hubName) => {
-        rl.close();
-        return hubName;
+function promptUserForHubNames() {
+    let hubName = '';
+    rl.question("Name for new hub: ", function(answer) {
+    rl.close();
+    hubName = answer;
     });
-    
+    return hubName;
 }
 
 function confirmHubName(hub) {
