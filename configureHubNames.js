@@ -26,8 +26,8 @@ function scanAndConnectToHubs() {
 function promptUserForHubNames() {
     let hubName = '';
     rl.question("Name for new hub: ", function(answer) {
-    rl.close();
-    hubName = answer;
+        hubName = answer;
+        rl.close();
     });
     return hubName;
 }
