@@ -28,8 +28,9 @@ function promptUserForHubNames(){
     rl.prompt()
     rl.on('line', (hubName) => {
         rl.close();
+        return hubName;
     });
-    return hubName;
+    
 }
 
 function confirmHubName(hub) {
