@@ -4,8 +4,10 @@ const fs = require('fs');
 const readline = require('readline');
 const PoweredUP = require('node-poweredup');
 const poweredUP = new PoweredUP.PoweredUP();
-let rl = readline.createInterface(
-    process.stdin, process.stdout);   
+let rl = readline.createInterface({
+    input: process.stdin, 
+    output: process.stdout
+});   
 
 function main() {
     scanAndConnectToHubs();    
