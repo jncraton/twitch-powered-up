@@ -1,6 +1,7 @@
 'use strict'
 // import the js library needed to work in twitch
 const tmi = require('tmi.js')
+const connectToBlue = require('./connectToBlue')
 var CONFIG = require('./config.json')
 
 // basic username and channel name for our specfic project Oauth_token is found in the config file
@@ -11,6 +12,7 @@ let speed = 0
 
 function main () {
   connectToTwitch()
+  connectToBlue.startScan()
 }
 
 function connectToTwitch () {
@@ -41,6 +43,8 @@ function parse (message) {
     value = 0
   } else if (message === 'Go') {
     value = 1
+  } else if (message === 'Lights') {
+    value = 'setAllLights'
   }
   console.log('our value is:', value)
   return value
@@ -61,6 +65,8 @@ function onMessageHandler (target, context, msg, self) {
   } else if (value === 1) {
     speed++
     console.log('our speed is now:', speed)
+  } else if (value === 'setAllLights') {
+    connectToBlue.changeAllHubLeds(1)
   } else {
     console.log('no parseable command was entered!')
   }
