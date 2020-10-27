@@ -3,6 +3,7 @@
 const fs = require('fs');
 const readline = require('readline');
 const PoweredUP = require('node-poweredup');
+const { resolve } = require('path');
 const poweredUP = new PoweredUP.PoweredUP();
 let rl = readline.createInterface({
     input: process.stdin, 
@@ -10,7 +11,7 @@ let rl = readline.createInterface({
 });   
 
 function main() {
-    scanAndConnectToHubs();    
+    scanAndConnectToHubs();
 }
 
 function scanAndConnectToHubs() {
@@ -20,22 +21,25 @@ function scanAndConnectToHubs() {
     poweredUP.on('discover', async (hub) => { // Wait to discover hubs
         await hub.connect(); // Connect to hub
         console.log(`Connected to ${hub.name}!`);
-        hub.setName(promptUserForHubNames());
+        await promptUserForHubNames(hub);
         confirmHubName(hub);
+        process.exit(1);
     });
 }
 
-function promptUserForHubNames() {
-    let hubName = '';
-    rl.question("Name for new hub: ", function(answer) {
-        hubName = answer;
-        rl.close();
+async function promptUserForHubNames(hub) {
+    let promise = new Promise(resolve => {
+        rl.question("Name for new hub: ", async function(answer) {
+            await hub.setName(answer); // Eventually wrap in try catch
+            rl.close();
+            resolve();
+        })
     });
-    return hubName;
+    return promise;
 }
 
 function confirmHubName(hub) {
-    console.log("\nHub name is now: " + hub.name);
+    console.log("Hub name is now: " + hub._name);
 }
 
 main();
