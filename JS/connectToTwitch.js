@@ -1,21 +1,21 @@
-'use strict'
 // import the js library needed to work in twitch
+const debug = require('debug')('twitch')
 const tmi = require('tmi.js')
 const connectToBlue = require('./connectToBlue')
-var CONFIG = require('./config.json')
+const CONFIG = require('../config.json')
 
 // basic username and channel name for our specfic project Oauth_token is found in the config file
 const BOT_USERNAME = CONFIG.BOT_USERNAME
 const OAUTH_TOKEN = CONFIG.AUTHTOKEN
 const CHANNEL_NAME = CONFIG.CHANNEL_NAME
-let speed = 0
+const DEVICES = CONFIG.Devices
 
-function main () {
+const init = () => {
   connectToTwitch()
   connectToBlue.startScan()
 }
 
-function connectToTwitch () {
+const connectToTwitch = () => {
   const connectionObj = {
     identity: {
       username: BOT_USERNAME,
@@ -34,47 +34,68 @@ function connectToTwitch () {
 
   // Connect to Twitch
   client.connect()
+    .catch((error) => { console.log(error) })
 }
 
-// -1 means that nothing useful is passed
-function parse (message) {
-  let value = -1
-  if (message === 'Stop') {
-    value = 0
-  } else if (message === 'Go') {
-    value = 1
-  } else if (message === 'Lights') {
-    value = 'setAllLights'
-  }
-  console.log('our value is:', value)
-  return value
-}
-
-function onMessageHandler (target, context, msg, self) {
+const onMessageHandler = (target, context, msg, self) => {
   // Ignore messages from the bot such as shout messages for user commands
   if (self) { return }
 
   // Remove whitespace from chat message
-  const commandName = msg.trim()
+  const message = msg.trim().toLowerCase()
 
-  const value = parse(commandName)
-  // console.log(commandName)
-  if (value === 0 && speed > 0) {
-    speed--
-    console.log('our speed is now:', speed)
-  } else if (value === 1) {
-    speed++
-    console.log('our speed is now:', speed)
-  } else if (value === 'setAllLights') {
-    connectToBlue.changeAllHubLeds(1)
-  } else {
-    console.log('no parseable command was entered!')
+  const token = actionTokenFromMessage(message)
+  const device = connectToBlue.getDevice(token.hub, token.port)
+  console.log(token)
+  device[token.method](token.val)
+}
+
+const actionTokenFromMessage = (msg) => {
+  const token = {
+    hub: null,
+    port: null,
+    method: null,
+    val: null,
+    multiplier: 1
   }
+
+  DEVICES.forEach(device => {
+    if (checkMsgIncludes(msg, device.nouns)) {
+      token.hub = device.hub
+      token.port = device.port
+
+      device.actions.forEach(action => {
+        if (checkMsgIncludes(msg, action.verbs)) {
+          token.method = action.method
+          if (action.default) {
+            token.val = action.default
+          }
+          if (action.multiplier) {
+            token.multiplier = action.multiplier
+          }
+        }
+      })
+    }
+  })
+
+  try {
+    token.val = msg.match(/\d+/)[0]
+  } catch (e) { debug('no value found') }
+
+  return token
+}
+
+const checkMsgIncludes = (msg, strArr) => {
+  return strArr.some(str => {
+    if (msg.includes(str)) {
+      return true
+    }
+  })
 }
 
 // shows that we have connected to the twitch account
-function onConnectedHandler (addr, port) {
-  console.log(`* Connected to ${addr}:${port}`)
+const onConnectedHandler = (addr, port) => {
+  console.log(`Connected to ${addr}:${port}`)
 }
 
-main()
+init()
