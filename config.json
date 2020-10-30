@@ -1,0 +1,51 @@
+{
+    "AUTHTOKEN" : "******************************",
+    "REFRESHTOKEN" : "******************************",
+    "BOT_USERNAME" : "twitchpoweredup",
+    "CHANNEL_NAME" : "twitchpoweredup",
+    
+    "Devices":
+    [
+        {
+            "hub": "hub1",
+            "port": "A",
+            "nouns": ["red train", "red motor"],
+            "actions": [
+                {
+                    "method": "setPower",
+                    "verbs": ["go", "forward"],
+                    "default": 50
+                },
+                {
+                    "method": "setPower",
+                    "verbs": ["brake", "stop"],
+                    "default": 0
+                },
+                {
+                    "method": "setPower",
+                    "verbs": ["backwards", "reverse"],
+                    "default": -50,
+                    "multiplier": -1
+                }
+            ]
+        },
+
+        {
+            "hub": "hub1",
+            "port": "B",
+            "nouns": ["red train lights", "red lights"],
+            "actions": [
+                {
+                    "method": "setBrightness",
+                    "verbs": ["on", "brightness"],
+                    "default": 80
+                },
+                {
+                    "method": "setBrightness",
+                    "verbs": ["off"],
+                    "default": 0
+                }
+            ]
+        }
+    ]
+}
