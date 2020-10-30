@@ -1,30 +1,23 @@
 // import the js library needed to work in twitch
 const debug = require('debug')('twitch')
 const tmi = require('tmi.js')
-const CONFIG = require('../config.json')
+const config = require('../config.json')
 const fs = require('fs')
-const connectToBlue = require('./connectToBlue')
-
-// basic username and channel name for our specfic project Oauth_token is found in the config file
-const BOT_USERNAME = CONFIG.BOT_USERNAME
-const OAUTH_TOKEN = CONFIG.AUTHTOKEN
-const CHANNEL_NAME = CONFIG.CHANNEL_NAME
-const DEVICES = CONFIG.Devices
-const REFRESH_TOKEN = CONFIG.REFRESHTOKEN
+const bluetooth = require('./bluetooth')
 
 const init = () => {
-  connectToTwitch()
-  connectToBlue.startScan()
+  connect()
+  bluetooth.startScan()
 }
 
-const connectToTwitch = () => {
+const connect = () => {
   const connectionObj = {
     identity: {
-      username: BOT_USERNAME,
-      password: OAUTH_TOKEN
+      username: config.twitch.username,
+      password: config.twitch.auth
     },
     channels: [
-      CHANNEL_NAME
+      config.twitch.channel
     ]
   }
 
@@ -40,18 +33,14 @@ const connectToTwitch = () => {
 }
 
 const refresh = (connectionObj) => {
-  const URL = 'https://twitchtokengenerator.com/api/refresh/' + REFRESH_TOKEN
-  let newToken = ''
+  const URL = 'https://twitchtokengenerator.com/api/refresh/' + config.twitch.refresh
   require('https').get(URL, (res) => {
     res.setEncoding('utf8')
     res.on('data', function (body) {
-      const json = JSON.parse(body)
-      newToken = json.token
-      connectionObj.identity.password = newToken
-      const fileContent = fs.readFileSync('config.json')
-      const data = JSON.parse(fileContent)
-      data.AUTHTOKEN = newToken
-      fs.writeFileSync('config.json', JSON.stringify(data, null, 4))
+      config.twitch.auth = JSON.parse(body).token
+      connectionObj.identity.password = config.twitch.auth
+
+      fs.writeFileSync('config.json', JSON.stringify(config, null, 4))
 
       const client = new tmi.Client(connectionObj)
       client.on('message', onMessageHandler)
@@ -69,20 +58,16 @@ const onMessageHandler = (target, context, msg, self) => {
   const message = msg.trim().toLowerCase()
 
   const token = actionTokenFromMessage(message)
-  const device = connectToBlue.getDevice(token.hub, token.port)
-  device[token.method](token.val * token.multiplier)
+  const device = bluetooth.getDevice(token.hub, token.port)
+  device[token.method](token.value * token.multiplier)
 }
 
 const actionTokenFromMessage = (msg) => {
   let token = {
-    hub: null,
-    port: null,
-    method: null,
-    val: null,
     multiplier: 1
   }
 
-  DEVICES.forEach(device => {
+  config.devices.forEach(device => {
     if (checkMsgIncludes(msg, device.nouns)) {
       token = Object.assign(token, device)
 
@@ -95,7 +80,7 @@ const actionTokenFromMessage = (msg) => {
   })
 
   try {
-    token.val = msg.match(/\d+/)[0]
+    token.value = msg.match(/\d+/)[0]
   } catch (e) {
     debug('no value found')
   }

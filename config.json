@@ -1,9 +1,11 @@
 {
-    "AUTHTOKEN": "XXX",
-    "REFRESHTOKEN": "XXX",
-    "BOT_USERNAME": "twitchpoweredup",
-    "CHANNEL_NAME": "twitchpoweredup",
-    "Devices": [
+    "twitch": {
+        "auth": "{OAuthToken}",
+        "refresh": "{OAuthRefreshToken}",
+        "username": "twitchpoweredup",
+        "channel": "twitchpoweredup"
+    },
+    "devices": [
         {
             "hub": "hub1",
             "port": "A",
