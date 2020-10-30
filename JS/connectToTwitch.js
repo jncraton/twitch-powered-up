@@ -1,7 +1,7 @@
-'use strict'
 // import the js library needed to work in twitch
+const debug = require('debug')('twitch')
 const tmi = require('tmi.js')
-var CONFIG = require('./config.json')
+const CONFIG = require('../config.json')
 const fs = require('fs')
 const connectToBlue = require('./connectToBlue')
 
@@ -9,15 +9,15 @@ const connectToBlue = require('./connectToBlue')
 const BOT_USERNAME = CONFIG.BOT_USERNAME
 const OAUTH_TOKEN = CONFIG.AUTHTOKEN
 const CHANNEL_NAME = CONFIG.CHANNEL_NAME
+const DEVICES = CONFIG.Devices
 const REFRESH_TOKEN = CONFIG.REFRESHTOKEN
-let speed = 0
 
-function main () {
+const init = () => {
   connectToTwitch()
   connectToBlue.startScan()
 }
 
-function connectToTwitch () {
+const connectToTwitch = () => {
   const connectionObj = {
     identity: {
       username: BOT_USERNAME,
@@ -35,11 +35,12 @@ function connectToTwitch () {
   client.on('connected', onConnectedHandler)
 
   // Connect to Twitch
-  client.connect().catch(() => refresh(connectionObj))
+  client.connect()
+    .catch(() => refresh(connectionObj))
 }
 
-function refresh (connectionObj) {
-  var URL = 'https://twitchtokengenerator.com/api/refresh/' + REFRESH_TOKEN
+const refresh = (connectionObj) => {
+  const URL = 'https://twitchtokengenerator.com/api/refresh/' + REFRESH_TOKEN
   let newToken = ''
   require('https').get(URL, (res) => {
     res.setEncoding('utf8')
@@ -47,8 +48,8 @@ function refresh (connectionObj) {
       const json = JSON.parse(body)
       newToken = json.token
       connectionObj.identity.password = newToken
-      var fileContent = fs.readFileSync('config.json')
-      var data = JSON.parse(fileContent)
+      const fileContent = fs.readFileSync('config.json')
+      const data = JSON.parse(fileContent)
       data.AUTHTOKEN = newToken
       fs.writeFileSync('config.json', JSON.stringify(data, null, 4))
 
@@ -60,45 +61,59 @@ function refresh (connectionObj) {
   })
 }
 
-// -1 means that nothing useful is passed
-function parse (message) {
-  let value = -1
-  if (message === 'Stop') {
-    value = 0
-  } else if (message === 'Go') {
-    value = 1
-  } else if (message === 'Lights') {
-    value = 'setAllLights'
-  }
-  console.log('our value is:', value)
-  return value
-}
-
-function onMessageHandler (target, context, msg, self) {
+const onMessageHandler = (target, context, msg, self) => {
   // Ignore messages from the bot such as shout messages for user commands
   if (self) { return }
 
   // Remove whitespace from chat message
-  const commandName = msg.trim()
+  const message = msg.trim().toLowerCase()
 
-  const value = parse(commandName)
-  // console.log(commandName)
-  if (value === 0 && speed > 0) {
-    speed--
-    console.log('our speed is now:', speed)
-  } else if (value === 1) {
-    speed++
-    console.log('our speed is now:', speed)
-  } else if (value === 'setAllLights') {
-    connectToBlue.changeAllHubLeds(1)
-  } else {
-    console.log('no parseable command was entered!')
+  const token = actionTokenFromMessage(message)
+  const device = connectToBlue.getDevice(token.hub, token.port)
+  device[token.method](token.val * token.multiplier)
+}
+
+const actionTokenFromMessage = (msg) => {
+  let token = {
+    hub: null,
+    port: null,
+    method: null,
+    val: null,
+    multiplier: 1
   }
+
+  DEVICES.forEach(device => {
+    if (checkMsgIncludes(msg, device.nouns)) {
+      token = Object.assign(token, device)
+
+      device.actions.forEach(action => {
+        if (checkMsgIncludes(msg, action.verbs)) {
+          token = Object.assign(token, action)
+        }
+      })
+    }
+  })
+
+  try {
+    token.val = msg.match(/\d+/)[0]
+  } catch (e) {
+    debug('no value found')
+  }
+
+  return token
+}
+
+const checkMsgIncludes = (msg, strArr) => {
+  return strArr.some(str => {
+    if (msg.includes(str)) {
+      return true
+    }
+  })
 }
 
 // shows that we have connected to the twitch account
-function onConnectedHandler (addr, port) {
-  console.log(`* Connected to ${addr}:${port}`)
+const onConnectedHandler = (addr, port) => {
+  console.log(`Connected to ${addr}:${port}`)
 }
 
-main()
+init()

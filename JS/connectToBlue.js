@@ -15,6 +15,12 @@ const startScan = () => {
   console.log('Scanning for Hubs...')
 }
 
+const getDevice = (hubName, portName) => {
+  const hubs = poweredUP.getHubs()
+  const hub = hubs.filter(hub => hub.name === hubName)
+  return hub[0].getDeviceAtPort(portName)
+}
+
 const changeAllHubLeds = (color) => {
   console.log('changing color')
   const hubs = poweredUP.getHubs() // Get an array of all connected hubs
@@ -24,4 +30,4 @@ const changeAllHubLeds = (color) => {
   })
 }
 
-module.exports = { startScan, changeAllHubLeds }
+module.exports = { startScan, changeAllHubLeds, getDevice }
