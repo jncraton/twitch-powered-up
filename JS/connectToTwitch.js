@@ -2,11 +2,13 @@
 // import the js library needed to work in twitch
 const tmi = require('tmi.js')
 var CONFIG = require('./config.json')
+const fs = require('fs')
 
 // basic username and channel name for our specfic project Oauth_token is found in the config file
 const BOT_USERNAME = CONFIG.BOT_USERNAME
 const OAUTH_TOKEN = CONFIG.AUTHTOKEN
 const CHANNEL_NAME = CONFIG.CHANNEL_NAME
+const REFRESH_TOKEN = CONFIG.REFRESHTOKEN
 let speed = 0
 
 function main () {
@@ -31,7 +33,29 @@ function connectToTwitch () {
   client.on('connected', onConnectedHandler)
 
   // Connect to Twitch
-  client.connect()
+  client.connect().catch(() => refresh(connectionObj))
+}
+
+function refresh (connectionObj) {
+  var URL = 'https://twitchtokengenerator.com/api/refresh/' + REFRESH_TOKEN
+  let newToken = ''
+  require('https').get(URL, (res) => {
+    res.setEncoding('utf8')
+    res.on('data', function (body) {
+      const json = JSON.parse(body)
+      newToken = json.token
+      connectionObj.identity.password = newToken
+      var fileContent = fs.readFileSync('config.json')
+      var data = JSON.parse(fileContent)
+      data.AUTHTOKEN = newToken
+      fs.writeFileSync('config.json', JSON.stringify(data, null, 4))
+
+      const client = new tmi.Client(connectionObj)
+      client.on('message', onMessageHandler)
+      client.on('connected', onConnectedHandler)
+      client.connect().catch(console.error)
+    })
+  })
 }
 
 // -1 means that nothing useful is passed
