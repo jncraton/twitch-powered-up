@@ -46,11 +46,11 @@ const onMessageHandler = (target, context, msg, self) => {
 
   const token = actionTokenFromMessage(message)
   const device = connectToBlue.getDevice(token.hub, token.port)
-  device[token.method](token.val)
+  device[token.method](token.val * token.multiplier)
 }
 
 const actionTokenFromMessage = (msg) => {
-  const token = {
+  let token = {
     hub: null,
     port: null,
     method: null,

@@ -1,5 +1,5 @@
 {
-    "AUTHTOKEN" : "******************************",
+    "AUTHTOKEN" : "bg2fhhevme8f18hzp75e94ovfmy083",
     "REFRESHTOKEN" : "******************************",
     "BOT_USERNAME" : "twitchpoweredup",
     "CHANNEL_NAME" : "twitchpoweredup",
@@ -14,17 +14,17 @@
                 {
                     "method": "setPower",
                     "verbs": ["go", "forward"],
-                    "default": 50
+                    "value": 50
                 },
                 {
                     "method": "setPower",
                     "verbs": ["brake", "stop"],
-                    "default": 0
+                    "value": 0
                 },
                 {
                     "method": "setPower",
                     "verbs": ["backwards", "reverse"],
-                    "default": -50,
+                    "value": -50,
                     "multiplier": -1
                 }
             ]
@@ -38,12 +38,12 @@
                 {
                     "method": "setBrightness",
                     "verbs": ["on", "brightness"],
-                    "default": 80
+                    "value": 80
                 },
                 {
                     "method": "setBrightness",
                     "verbs": ["off"],
-                    "default": 0
+                    "value": 0
                 }
             ]
         }
