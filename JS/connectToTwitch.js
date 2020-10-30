@@ -12,7 +12,6 @@ const CHANNEL_NAME = CONFIG.CHANNEL_NAME
 const DEVICES = CONFIG.Devices
 const REFRESH_TOKEN = CONFIG.REFRESHTOKEN
 
-
 const init = () => {
   connectToTwitch()
   connectToBlue.startScan()
@@ -41,7 +40,7 @@ const connectToTwitch = () => {
 }
 
 const refresh = (connectionObj) => {
-  let URL = 'https://twitchtokengenerator.com/api/refresh/' + REFRESH_TOKEN
+  const URL = 'https://twitchtokengenerator.com/api/refresh/' + REFRESH_TOKEN
   let newToken = ''
   require('https').get(URL, (res) => {
     res.setEncoding('utf8')
@@ -49,8 +48,8 @@ const refresh = (connectionObj) => {
       const json = JSON.parse(body)
       newToken = json.token
       connectionObj.identity.password = newToken
-      let fileContent = fs.readFileSync('config.json')
-      let data = JSON.parse(fileContent)
+      const fileContent = fs.readFileSync('config.json')
+      const data = JSON.parse(fileContent)
       data.AUTHTOKEN = newToken
       fs.writeFileSync('config.json', JSON.stringify(data, null, 4))
 
@@ -98,7 +97,7 @@ const actionTokenFromMessage = (msg) => {
   try {
     token.val = msg.match(/\d+/)[0]
   } catch (e) {
-  	debug('no value found') 
+    debug('no value found')
   }
 
   return token
