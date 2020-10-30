@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/waclemens/twitch-powered-up#readme",
   "dependencies": {
-    "node-ble": "^1.2.0",
-    "standard": "*"
+    "node-poweredup": "^6.7.0",
+    "standard": "^14.3.4",
+    "tmi.js": "^1.5.0"
   }
 }
