@@ -23,7 +23,7 @@ function main () {
 
 async function promptUserForHubNames (hub) {
   const promise = new Promise(resolve => {
-    rl.question('Name for new hub: ', async function(answer) {
+    rl.question('Name for new hub: ', async function (answer) {
       await hub.setName(answer) // Eventually wrap in try catch
       rl.close()
       resolve()
