@@ -46,7 +46,6 @@ const onMessageHandler = (target, context, msg, self) => {
 
   const token = actionTokenFromMessage(message)
   const device = connectToBlue.getDevice(token.hub, token.port)
-  console.log(token)
   device[token.method](token.val)
 }
 
@@ -61,18 +60,11 @@ const actionTokenFromMessage = (msg) => {
 
   DEVICES.forEach(device => {
     if (checkMsgIncludes(msg, device.nouns)) {
-      token.hub = device.hub
-      token.port = device.port
+      token = Object.assign(token, device)
 
       device.actions.forEach(action => {
         if (checkMsgIncludes(msg, action.verbs)) {
-          token.method = action.method
-          if (action.default) {
-            token.val = action.default
-          }
-          if (action.multiplier) {
-            token.multiplier = action.multiplier
-          }
+          token = Object.assign(token, action)
         }
       })
     }
@@ -80,7 +72,9 @@ const actionTokenFromMessage = (msg) => {
 
   try {
     token.val = msg.match(/\d+/)[0]
-  } catch (e) { debug('no value found') }
+  } catch (e) {
+  	debug('no value found') 
+  }
 
   return token
 }
