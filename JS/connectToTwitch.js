@@ -37,8 +37,7 @@ const connectToTwitch = () => {
 
   // Connect to Twitch
   client.connect()
-    .catch((error) => { console.log(error) })
-  client.connect().catch(() => refresh(connectionObj))
+    .catch(() => refresh(connectionObj))
 }
 
 const refresh = (connectionObj) => {
