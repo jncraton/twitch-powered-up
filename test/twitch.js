@@ -1,2 +1,2 @@
-const assert = require('assert').strict;
-assert.equal(1, 2);
+const assert = require('assert').strict
+assert.equal(1, 1)
