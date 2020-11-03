@@ -3,14 +3,8 @@ const debug = require('debug')('twitch')
 const tmi = require('tmi.js')
 const config = require('../config.json')
 const fs = require('fs')
-const bluetooth = require('./bluetooth')
 
-const init = () => {
-  connect()
-  bluetooth.startScan()
-}
-
-const connect = () => {
+const connect = (onMessageHandler, onConnectedHandler) => {
   const connectionObj = {
     identity: {
       username: config.twitch.username,
@@ -29,10 +23,10 @@ const connect = () => {
 
   // Connect to Twitch
   client.connect()
-    .catch(() => refresh(connectionObj))
+    .catch(() => refresh(connectionObj, onMessageHandler, onConnectedHandler))
 }
 
-const refresh = (connectionObj) => {
+const refresh = (connectionObj, onMessageHandler, onConnectedHandler) => {
   const URL = 'https://twitchtokengenerator.com/api/refresh/' + config.twitch.refresh
   require('https').get(URL, (res) => {
     res.setEncoding('utf8')
@@ -48,18 +42,6 @@ const refresh = (connectionObj) => {
       client.connect().catch(console.error)
     })
   })
-}
-
-const onMessageHandler = (target, context, msg, self) => {
-  // Ignore messages from the bot such as shout messages for user commands
-  if (self) { return }
-
-  // Remove whitespace from chat message
-  const message = msg.trim().toLowerCase()
-
-  const token = actionTokenFromMessage(message)
-  const device = bluetooth.getDevice(token.hub, token.port)
-  device[token.method](token.value * token.multiplier)
 }
 
 const actionTokenFromMessage = (msg) => {
@@ -80,7 +62,7 @@ const actionTokenFromMessage = (msg) => {
   })
 
   try {
-    token.value = msg.match(/\d+/)[0]
+    token.value = parseInt(msg.match(/\d+/)[0])
   } catch (e) {
     debug('no value found')
   }
@@ -96,9 +78,4 @@ const checkMsgIncludes = (msg, strArr) => {
   })
 }
 
-// shows that we have connected to the twitch account
-const onConnectedHandler = (addr, port) => {
-  console.log(`Connected to ${addr}:${port}`)
-}
-
-init()
+module.exports = { actionTokenFromMessage, connect }

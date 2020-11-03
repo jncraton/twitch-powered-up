@@ -4,7 +4,8 @@
   "description": "Twitch Powered Up",
   "main": "index.js",
   "scripts": {
-    "test": "standard"
+    "run": "node scr/twitchPoweredUp.js",
+    "test": "node test/twitch.js && standard"
   },
   "repository": {
     "type": "git",
