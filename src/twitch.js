@@ -23,10 +23,10 @@ const connect = (onMessageHandler, onConnectedHandler) => {
 
   // Connect to Twitch
   client.connect()
-    .catch(() => refresh(connectionObj))
+    .catch(() => refresh(connectionObj, onMessageHandler, onConnectedHandler))
 }
 
-const refresh = (connectionObj) => {
+const refresh = (connectionObj, onMessageHandler, onConnectedHandler) => {
   const URL = 'https://twitchtokengenerator.com/api/refresh/' + config.twitch.refresh
   require('https').get(URL, (res) => {
     res.setEncoding('utf8')
