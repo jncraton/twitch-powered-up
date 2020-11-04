@@ -12,10 +12,14 @@ const onMessageHandler = (target, context, msg, self) => {
 
   // Remove whitespace from chat message
   const message = msg.trim().toLowerCase()
-
   const token = twitch.actionTokenFromMessage(message)
-  const device = bluetooth.getDevice(token.hub, token.port)
-  device[token.method](token.value * token.multiplier)
+
+  if (token.hub && token.port) {
+    const device = bluetooth.getDevice(token.hub, token.port)
+    if (token.method) {
+      device[token.method](token.value * token.multiplier)
+    }
+  }
 }
 
 // shows that we have connected to the twitch account
