@@ -50,11 +50,11 @@ const actionTokenFromMessage = (msg) => {
   }
 
   config.devices.forEach(device => {
-    if (checkMsgIncludes(msg, device.nouns)) {
+    if (device.nouns.some(n => msg.includes(n))) {
       token = Object.assign(token, device)
 
       device.actions.forEach(action => {
-        if (checkMsgIncludes(msg, action.verbs)) {
+        if (action.verbs.some(v => msg.includes(v))) {
           token = Object.assign(token, action)
         }
       })
@@ -68,14 +68,6 @@ const actionTokenFromMessage = (msg) => {
   }
 
   return token
-}
-
-const checkMsgIncludes = (msg, strArr) => {
-  return strArr.some(str => {
-    if (msg.includes(str)) {
-      return true
-    }
-  })
 }
 
 module.exports = { actionTokenFromMessage, connect }
