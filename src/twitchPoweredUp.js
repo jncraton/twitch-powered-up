@@ -14,11 +14,9 @@ const onMessageHandler = (target, context, msg, self) => {
   const message = msg.trim().toLowerCase()
   const token = twitch.actionTokenFromMessage(message)
 
-  if (token.hub && token.port) {
+  if (token.hub && token.port && token.method) {
     const device = bluetooth.getDevice(token.hub, token.port)
-    if (token.method) {
-      device[token.method](token.value * token.multiplier)
-    }
+    device[token.method](token.value * token.multiplier)
   }
 }
 
