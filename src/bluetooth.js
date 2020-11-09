@@ -19,10 +19,9 @@ const getDevice = (hubName, portName) => {
   const hubs = poweredUP.getHubs()
   const hub = hubs.filter(hub => hub.name === hubName)
 
-  if(hub.length === 1) {
+  if (hub.length === 1) {
     return hub[0].getDeviceAtPort(portName)
-  }
-  else {
+  } else {
     return undefined
   }
 }
