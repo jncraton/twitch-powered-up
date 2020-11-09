@@ -18,7 +18,12 @@ const startScan = () => {
 const getDevice = (hubName, portName) => {
   const hubs = poweredUP.getHubs()
   const hub = hubs.filter(hub => hub.name === hubName)
-  return hub[0].getDeviceAtPort(portName)
+
+  if (hub.length === 1) {
+    return hub[0].getDeviceAtPort(portName)
+  } else {
+    return undefined
+  }
 }
 
 const changeAllHubLeds = (color) => {

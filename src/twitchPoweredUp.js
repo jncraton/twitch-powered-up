@@ -16,7 +16,9 @@ const onMessageHandler = (target, context, msg, self) => {
 
   if (token.hub && token.port && token.method) {
     const device = bluetooth.getDevice(token.hub, token.port)
-    device[token.method](token.value * token.multiplier)
+    if (device) {
+      device[token.method](token.value * token.multiplier)
+    }
   }
 }
 
