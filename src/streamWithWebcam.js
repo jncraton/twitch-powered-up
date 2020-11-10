@@ -14,11 +14,11 @@ function main () {
   exec(cmdString, (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`)
-      return;
+      return
     }
     if (stderr) {
       console.log(`stderr: ${stderr}`)
-      return;
+      return
     }
     console.log(`stdout: ${stdout}`)
   })
