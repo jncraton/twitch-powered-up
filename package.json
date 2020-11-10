@@ -1,22 +1,23 @@
 {
   "name": "twitch-powered-up",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Twitch Powered Up",
   "main": "index.js",
   "scripts": {
-    "test": "standard"
+    "start": "node src/twitchPoweredUp.js",
+    "test": "node test/twitch.js && standard"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/waclemens/twitch-powered-up.git"
+    "url": "git+https://github.com/jncraton/twitch-powered-up.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/waclemens/twitch-powered-up/issues"
+    "url": "https://github.com/jncraton/twitch-powered-up/issues"
   },
-  "homepage": "https://github.com/waclemens/twitch-powered-up#readme",
+  "homepage": "https://github.com/jncraton/twitch-powered-up#readme",
   "dependencies": {
     "debug": "^4.2.0",
     "node-poweredup": "^6.7.0",
