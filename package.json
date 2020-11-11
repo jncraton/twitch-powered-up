@@ -1,6 +1,6 @@
 {
   "name": "twitch-powered-up",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Twitch Powered Up",
   "main": "index.js",
   "scripts": {
@@ -23,5 +23,8 @@
     "node-poweredup": "^6.7.0",
     "standard": "^14.3.4",
     "tmi.js": "^1.5.0"
+  },
+  "bin": {
+    "twitch-powered-up": "bin/cmd.js"
   }
 }

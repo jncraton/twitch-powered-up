@@ -27,4 +27,4 @@ const onConnectedHandler = (addr, port) => {
   console.log(`Connected to ${addr}:${port}`)
 }
 
-init()
+module.exports = { init }
