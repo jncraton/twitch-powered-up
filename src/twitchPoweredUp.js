@@ -1,9 +1,11 @@
 const twitch = require('./twitch')
 const bluetooth = require('./bluetooth')
+const stream = require('./stream')
 
 const init = () => {
   twitch.connect(onMessageHandler, onConnectedHandler)
   bluetooth.startScan()
+  stream.start()
 }
 
 const onMessageHandler = (target, context, msg, self) => {
