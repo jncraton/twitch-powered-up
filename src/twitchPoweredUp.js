@@ -29,6 +29,8 @@ const onConnectedHandler = (addr, port) => {
 }
 
 const checkValidConfig = async () => {
+  const configPath = process.cwd().replace(/\\src$/, '\\config.json')
+  const examplePath = process.cwd().replace(/\\src$/, '\\examples\\exampleConfig.json')
   let config
   const configErrors = []
 
@@ -61,7 +63,7 @@ const checkValidConfig = async () => {
         device.actions.forEach((action, actionIndex) => {
           if (!action.method) { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].method not found...') }
           if (!action.verbs) { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].verbs not found...') }
-          if (!action.value === undefined) { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].value not found...') }
+          if (typeof action.value === 'undefined') { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].value not found...') }
           if (action.verbs && action.verbs.length === 0) { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].verbs has no verbs...') }
         })
       }
@@ -72,7 +74,7 @@ const checkValidConfig = async () => {
     configErrors.forEach((error) => {
       console.log(error)
     })
-    console.log('config.json is not set up properly see documentation')
+    console.log(configPath + ' is not set up properly see ' + examplePath + ' for help')
     process.exit(1)
   }
 }
