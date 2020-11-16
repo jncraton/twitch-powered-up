@@ -19,8 +19,7 @@
                     "verbs": [
                         "go",
                         "forward"
-                    ],
-                    "value": 50
+                    ]
                 },
                 {
                     "method": "setPower",

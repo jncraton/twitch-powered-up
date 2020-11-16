@@ -26,6 +26,6 @@
   },
   "bin": {
     "twitch-powered-up": "bin/twitch-powered-up.js",
-    "tpw-rename-hub": "bin/rename-hub.js"
+    "tpu-rename-hub": "bin/rename-hub.js"
   }
 }
