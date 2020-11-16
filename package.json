@@ -25,6 +25,7 @@
     "tmi.js": "^1.5.0"
   },
   "bin": {
-    "twitch-powered-up": "bin/cmd.js"
+    "twitch-powered-up": "bin/twitch-powered-up.js",
+    "tpw-rename-hub": "bin/rename-hub.js"
   }
 }
