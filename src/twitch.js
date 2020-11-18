@@ -62,7 +62,7 @@ const actionTokenFromMessage = (msg) => {
   })
 
   try {
-    token.value = parseInt(msg.match(/\d+/)[0])
+    token.value = parseInt(msg.match(/-?\d+/)[0])
   } catch (e) {
     debug('no value found')
   }
