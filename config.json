@@ -1,6 +1,6 @@
 {
     "twitch": {
-        "auth": "{OAuthToken}",
+        "auths": "{OAuthToken}",
         "refresh": "{OAuthRefreshToken}",
         "username": "twitchpoweredup",
         "channel": "twitchpoweredup"

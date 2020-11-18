@@ -1,5 +1,5 @@
-//const twitch = require('./twitch')
-//const bluetooth = require('./bluetooth')
+const twitch = require('./twitch')
+const bluetooth = require('./bluetooth')
 
 const init = async () => {
   await checkValidConfig()
@@ -29,8 +29,8 @@ const onConnectedHandler = (addr, port) => {
 }
 
 const checkValidConfig = async () => {
-  const configPath = __dirname.replace(/\\src$/, '\\config.json')
-  const examplePath = __dirname.replace(/\\src$/, '\\examples\\exampleConfig.json')
+  const configPath = __dirname.replace(/\\/g, '\/').replace(/\/src$/, '\/config.json')
+  const examplePath = __dirname.replace(/\\/g, '\/').replace(/\/src$/, '\/examples\/exampleConfig.json')
   let config
   const configErrors = []
 
