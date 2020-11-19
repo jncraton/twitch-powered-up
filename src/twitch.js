@@ -56,7 +56,7 @@ const actionTokenFromMessage = (msg) => {
 	    	token.min = device.min
 	    	token.max = device.max
 	    }
-	    catch{
+	    catch(e){
 		    debug('max or min does not exist')
 	    }
       device.actions.forEach(action => {
@@ -73,7 +73,7 @@ const actionTokenFromMessage = (msg) => {
 	 try {
 	    token.value = Math.max(token.value,token.min)	
 	    token.value = Math.min(token.value,token.max)
-	  }catch {
+	  }catch(e) {
 	  //this doesnt matter
 	debug('no min or max value for device')
  	}
