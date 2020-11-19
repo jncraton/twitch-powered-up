@@ -54,12 +54,7 @@ const actionTokenFromMessage = (msg) => {
   config.devices.forEach(device => {
     if (device.nouns.some(n => msg.includes(n))) {
       token = Object.assign(token, device)
-      try {
-        token.min = device.min
-        token.max = device.max
-      } catch (e) {
-        debug('max or min does not exist')
-      }
+
       device.actions.forEach(action => {
         if (action.verbs.some(v => msg.includes(v))) {
           token = Object.assign(token, action)
