@@ -52,20 +52,37 @@ const actionTokenFromMessage = (msg) => {
   config.devices.forEach(device => {
     if (device.nouns.some(n => msg.includes(n))) {
       token = Object.assign(token, device)
-
+	    try{
+	    	token.min = device.min
+	    	token.max = device.max
+	    }
+	    catch{
+		    debug('max or min does not exist')
+	    }
       device.actions.forEach(action => {
         if (action.verbs.some(v => msg.includes(v))) {
           token = Object.assign(token, action)
         }
-      })
+      
+     } )
     }
   })
 
   try {
     token.value = parseInt(msg.match(/-?\d+/)[0])
+	 try {
+	    token.value = Math.max(token.value,token.min)	
+	    token.value = Math.min(token.value,token.max)
+	  }catch {
+	  //this doesnt matter
+	debug('no min or max value for device')
+ 	}
+
   } catch (e) {
     debug('no value found')
   }
+
+
 
   return token
 }
