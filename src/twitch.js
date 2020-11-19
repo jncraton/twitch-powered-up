@@ -70,6 +70,8 @@ const actionTokenFromMessage = (msg) => {
 
   try {
     token.value = parseInt(msg.match(/-?\d+/)[0])
+    token.value = Math.max(token.value, token.min)
+    token.value = Math.min(token.value, token.max)
   } catch (e) {
     debug('no value found')
   }
