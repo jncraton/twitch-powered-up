@@ -1,6 +1,7 @@
 const twitch = require('./twitch')
 const bluetooth = require('./bluetooth')
 const fs = require('fs')
+const stream = require('./stream')
 const configPath = __dirname.replace(/\\/g, '/').replace(/\/src$/, '/config.json')
 let config
 
@@ -9,6 +10,7 @@ const init = async () => {
   await checkValidConfig()
   twitch.connect(onMessageHandler, onConnectedHandler, config)
   bluetooth.startScan()
+  stream.start()
 }
 
 const onMessageHandler = (target, context, msg, self) => {
