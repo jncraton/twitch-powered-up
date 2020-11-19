@@ -1,9 +1,13 @@
 const twitch = require('./twitch')
 const bluetooth = require('./bluetooth')
+const fs = require('fs')
+const configPath = __dirname.replace(/\\/g, '/').replace(/\/src$/, '/config.json')
+let config
 
 const init = async () => {
+  config = await getConfig()
   await checkValidConfig()
-  twitch.connect(onMessageHandler, onConnectedHandler)
+  twitch.connect(onMessageHandler, onConnectedHandler, config)
   bluetooth.startScan()
 }
 
@@ -13,7 +17,7 @@ const onMessageHandler = (target, context, msg, self) => {
 
   // Remove whitespace from chat message
   const message = msg.trim().toLowerCase()
-  const token = twitch.actionTokenFromMessage(message)
+  const token = twitch.actionTokenFromMessage(message, config)
 
   if (token.hub && token.port && token.method) {
     const device = bluetooth.getDevice(token.hub, token.port)
@@ -28,55 +32,65 @@ const onConnectedHandler = (addr, port) => {
   console.log(`Connected to ${addr}:${port}`)
 }
 
-const checkValidConfig = async () => {
-  const configPath = __dirname.replace(/\\/g, '\/').replace(/\/src$/, '\/config.json')
-  const examplePath = __dirname.replace(/\\/g, '\/').replace(/\/src$/, '\/examples\/exampleConfig.json')
-  let config
-  const configErrors = []
+const getConfig = () => {
+  return new Promise(resolve => {
+    try {
+      const config = require('../config.json')
+      resolve(config)
+    } catch (e) {
+      fs.copyFile('../examples/exampleConfig.json', '../config.json', (err) => {
+        if (err) { console.error({ message: 'There was an error', err }) }
+        console.log('config.json was created in \n' + configPath + '\nmake sure to enter twitch tokens before running again.')
+        process.exit(1)
+      })
+    }
+  })
+}
 
-  try {
-    config = require('../config.json')
-  } catch (e) {
-    console.log('could not locate config.json...')
-    process.exit(1)
-  }
+const checkValidConfig = () => {
+  return new Promise(resolve => {
+    const configErrors = []
 
-  if (!config.twitch) { configErrors.push('config.twitch not found...') }
-  if (config.twitch && !config.twitch.auth) { configErrors.push('config.twitch.auth not found...') }
-  if (config.twitch && !config.twitch.refresh) { configErrors.push('config.twitch.refresh not found...') }
-  if (config.twitch && !config.twitch.username) { configErrors.push('config.twitch.username not found...') }
-  if (config.twitch && !config.twitch.channel) { configErrors.push('config.twitch.channel not found...') }
+    if (!config) { configErrors.push('config not found...') }
+    if (config && !config.twitch) { configErrors.push('config.twitch not found...') }
+    if (config && config.twitch && !config.twitch.auth) { configErrors.push('config.twitch.auth not found...') }
+    if (config && config.twitch && !config.twitch.refresh) { configErrors.push('config.twitch.refresh not found...') }
+    if (config && config.twitch && !config.twitch.username) { configErrors.push('config.twitch.username not found...') }
+    if (config && config.twitch && !config.twitch.channel) { configErrors.push('config.twitch.channel not found...') }
 
-  if (!config.devices) { configErrors.push('config.devices not found...') }
-  if (config.devices && config.devices.length === 0) { configErrors.push('config.devices has no devices...') }
+    if (config && !config.devices) { configErrors.push('config.devices not found...') }
+    if (config && config.devices && config.devices.length === 0) { configErrors.push('config.devices has no devices...') }
 
-  if (config.devices) {
-    config.devices.forEach((device, deviceIndex) => {
-      if (!device.hub) { configErrors.push('config.device[' + deviceIndex + '].hub not found...') }
-      if (!device.port) { configErrors.push('config.device[' + deviceIndex + '].port not found...') }
-      if (!device.nouns) { configErrors.push('config.device[' + deviceIndex + '].nouns not found...') }
-      if (!device.actions) { configErrors.push('config.device[' + deviceIndex + '].actions not found...') }
-      if (device.nouns && device.nouns.length === 0) { configErrors.push('config.device[' + deviceIndex + '].actions has no nouns...') }
-      if (device.actions && device.actions.length === 0) { configErrors.push('config.device[' + deviceIndex + '].actions has no actions...') }
+    if (config && config.devices) {
+      config.devices.forEach((device, deviceIndex) => {
+        if (!device.hub) { configErrors.push('config.device[' + deviceIndex + '].hub not found...') }
+        if (!device.port) { configErrors.push('config.device[' + deviceIndex + '].port not found...') }
+        if (!device.nouns) { configErrors.push('config.device[' + deviceIndex + '].nouns not found...') }
+        if (!device.actions) { configErrors.push('config.device[' + deviceIndex + '].actions not found...') }
+        if (device.nouns && device.nouns.length === 0) { configErrors.push('config.device[' + deviceIndex + '].actions has no nouns...') }
+        if (device.actions && device.actions.length === 0) { configErrors.push('config.device[' + deviceIndex + '].actions has no actions...') }
 
-      if (device.actions) {
-        device.actions.forEach((action, actionIndex) => {
-          if (!action.method) { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].method not found...') }
-          if (!action.verbs) { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].verbs not found...') }
-          if (typeof action.value === 'undefined') { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].value not found...') }
-          if (action.verbs && action.verbs.length === 0) { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].verbs has no verbs...') }
-        })
-      }
-    })
-  }
+        if (device.actions) {
+          device.actions.forEach((action, actionIndex) => {
+            if (!action.method) { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].method not found...') }
+            if (!action.verbs) { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].verbs not found...') }
+            if (typeof action.value === 'undefined') { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].value not found...') }
+            if (action.verbs && action.verbs.length === 0) { configErrors.push('config.device[' + deviceIndex + '].actions[' + actionIndex + '].verbs has no verbs...') }
+          })
+        }
+      })
+    }
 
-  if (configErrors.length > 0) {
-    configErrors.forEach((error) => {
-      console.log(error)
-    })
-    console.log(configPath + ' is not set up properly see ' + examplePath + ' for help')
-    process.exit(1)
-  }
+    if (configErrors.length > 0) {
+      configErrors.forEach((error) => {
+        console.log(error)
+      })
+      console.log(configPath + ' is not set up properly...')
+      process.exit(1)
+    } else {
+      resolve('done')
+    }
+  })
 }
 
 module.exports = { init }
