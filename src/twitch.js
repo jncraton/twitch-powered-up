@@ -1,10 +1,9 @@
 // import the js library needed to work in twitch
 const debug = require('debug')('twitch')
 const tmi = require('tmi.js')
-const config = require('../config.json')
 const fs = require('fs')
 
-const connect = (onMessageHandler, onConnectedHandler) => {
+const connect = (onMessageHandler, onConnectedHandler, config) => {
   const connectionObj = {
     identity: {
       username: config.twitch.username,
@@ -23,10 +22,10 @@ const connect = (onMessageHandler, onConnectedHandler) => {
 
   // Connect to Twitch
   client.connect()
-    .catch(() => refresh(connectionObj, onMessageHandler, onConnectedHandler))
+    .catch(() => refresh(connectionObj, onMessageHandler, onConnectedHandler, config))
 }
 
-const refresh = (connectionObj, onMessageHandler, onConnectedHandler) => {
+const refresh = (connectionObj, onMessageHandler, onConnectedHandler, config) => {
   const URL = 'https://twitchtokengenerator.com/api/refresh/' + config.twitch.refresh
   require('https').get(URL, (res) => {
     res.setEncoding('utf8')
@@ -44,7 +43,7 @@ const refresh = (connectionObj, onMessageHandler, onConnectedHandler) => {
   })
 }
 
-const actionTokenFromMessage = (msg) => {
+const actionTokenFromMessage = (msg, config) => {
   let token = {
     multiplier: 1,
     min: -100,
