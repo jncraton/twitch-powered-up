@@ -2,7 +2,8 @@ const twitch = require('./twitch')
 const bluetooth = require('./bluetooth')
 const fs = require('fs')
 const stream = require('./stream')
-const configPath = __dirname.replace(/\\/g, '/').replace(/\/src$/, '/config.json')
+const xdgBasedir = require('xdg-basedir')
+const configPath = xdgBasedir.config + '/twitch-powered-up.json'
 let config
 
 const init = async () => {
@@ -10,7 +11,7 @@ const init = async () => {
   await checkValidConfig()
   twitch.connect(onMessageHandler, onConnectedHandler, config)
   bluetooth.startScan()
-  stream.start()
+  stream.start(config)
 }
 
 const onMessageHandler = (target, context, msg, self) => {
@@ -37,13 +38,18 @@ const onConnectedHandler = (addr, port) => {
 const getConfig = () => {
   return new Promise(resolve => {
     try {
-      const config = require('../config.json')
+      const config = require(configPath)
       resolve(config)
     } catch (e) {
-      fs.copyFile('../examples/exampleConfig.json', '../config.json', (err) => {
-        if (err) { console.error({ message: 'There was an error', err }) }
-        console.log('config.json was created in \n' + configPath + '\nmake sure to enter twitch tokens before running again.')
-        process.exit(1)
+      console.log(e)
+      fs.copyFile('examples/exampleConfig.json', configPath, (err) => {
+        if (err) {
+          console.error({ message: 'There was an error', err })
+          process.exit(1)
+        } else {
+          console.log('twitch-powered-up.config was created: \n' + configPath + '\nmake sure to enter twitch tokens before running again.')
+          process.exit(0)
+        }
       })
     }
   })
@@ -59,6 +65,13 @@ const checkValidConfig = () => {
     if (config && config.twitch && !config.twitch.refresh) { configErrors.push('config.twitch.refresh not found...') }
     if (config && config.twitch && !config.twitch.username) { configErrors.push('config.twitch.username not found...') }
     if (config && config.twitch && !config.twitch.channel) { configErrors.push('config.twitch.channel not found...') }
+
+    if (config && config.twitch && !config.twitch.stream) { configErrors.push('config.twitch.stream not found...') }
+    if (config && config.twitch && config.twitch.stream && !config.twitch.stream.streamKey) { configErrors.push('config.twitch.stream.streamKey not found...') }
+    if (config && config.twitch && config.twitch.stream && !config.twitch.stream.ingestServer) { configErrors.push('config.twitch.stream.ingestServer not found...') }
+    if (config && config.twitch && config.twitch.stream && !config.twitch.stream.displayDevice) { configErrors.push('config.twitch.stream.displayDevice not found...') }
+    if (config && config.twitch && config.twitch.stream && !config.twitch.stream.framerate) { configErrors.push('config.twitch.stream.framerate not found...') }
+    if (config && config.twitch && config.twitch.stream && !config.twitch.stream.qualityPreset) { configErrors.push('config.twitch.stream.qualityPreset not found...') }
 
     if (config && !config.devices) { configErrors.push('config.devices not found...') }
     if (config && config.devices && config.devices.length === 0) { configErrors.push('config.devices has no devices...') }

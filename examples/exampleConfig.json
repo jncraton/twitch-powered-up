@@ -3,7 +3,14 @@
         "auth": "{OAuthToken}",
         "refresh": "{OAuthRefreshToken}",
         "username": "twitchpoweredup",
-        "channel": "twitchpoweredup"
+        "channel": "twitchpoweredup",
+        "stream" : {
+            "streamKey": "{StreamKey}",
+            "ingestServer": "live-ord02",
+            "displayDevice": "/dev/video0",
+            "framerate": "30",
+            "qualityPreset": "ultrafast"
+        }
     },
     "devices": [
         {
