@@ -46,7 +46,9 @@ const refresh = (connectionObj, onMessageHandler, onConnectedHandler) => {
 
 const actionTokenFromMessage = (msg) => {
   let token = {
-    multiplier: 1
+    multiplier: 1,
+    min: -100,
+    max: 100
   }
 
   config.devices.forEach(device => {
@@ -62,7 +64,9 @@ const actionTokenFromMessage = (msg) => {
   })
 
   try {
-    token.value = parseInt(msg.match(/\d+/)[0])
+    token.value = parseInt(msg.match(/-?\d+/)[0])
+    token.value = Math.max(token.value, token.min)
+    token.value = Math.min(token.value, token.max)
   } catch (e) {
     debug('no value found')
   }
