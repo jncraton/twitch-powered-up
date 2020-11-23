@@ -4,6 +4,7 @@ const fs = require('fs')
 const stream = require('./stream')
 const xdgBasedir = require('xdg-basedir')
 const configPath = xdgBasedir.config + '/twitch-powered-up.json'
+const examplePath = __dirname.replace(/\\/g, '/').replace(/\/src$/, '/examples/exampleConfig.json')
 let config
 
 const init = async () => {
@@ -41,8 +42,7 @@ const getConfig = () => {
       const config = require(configPath)
       resolve(config)
     } catch (e) {
-      console.log(e)
-      fs.copyFile('examples/exampleConfig.json', configPath, (err) => {
+      fs.copyFile(examplePath, configPath, (err) => {
         if (err) {
           console.error({ message: 'There was an error', err })
           process.exit(1)
