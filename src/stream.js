@@ -1,9 +1,8 @@
 'use strict'
 
 const { exec } = require('child_process')
-const config = require('../config.json')
 
-function start () {
+function start (config) {
   const STREAM_KEY = config.twitch.stream.streamKey // Stream key from twitch that is read from the config file
   const INGEST_SERVER = config.twitch.stream.ingestServer // twitch server in Chicago, see https://bashtech.net/twitch/ingest.php to change
   const DISPLAY_DEVICE = config.twitch.stream.displayDevice
