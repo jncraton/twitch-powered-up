@@ -9,7 +9,7 @@ let config
 
 const init = async () => {
   config = await getConfig()
-  await checkValidConfig()
+  await checkValidConfig(config)
   twitch.connect(onMessageHandler, onConnectedHandler, config)
   bluetooth.startScan()
   stream.start(config)
@@ -55,7 +55,7 @@ const getConfig = () => {
   })
 }
 
-const checkValidConfig = () => {
+const checkValidConfig = (config) => {
   return new Promise(resolve => {
     const configErrors = []
 
@@ -103,9 +103,9 @@ const checkValidConfig = () => {
       console.log(configPath + ' is not set up properly...')
       process.exit(1)
     } else {
-      resolve('done')
+      resolve('good')
     }
   })
 }
 
-module.exports = { init }
+module.exports = { init, getConfig, checkValidConfig }
