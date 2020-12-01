@@ -17,7 +17,6 @@ const init = async () => {
   } catch (e) {
     process.exit(1)
   }
-    
 
   twitch.connect(onMessageHandler, onConnectedHandler, config)
   bluetooth.startScan()
