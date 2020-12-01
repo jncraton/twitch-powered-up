@@ -24,7 +24,7 @@ function start (config) {
   })
 
   process.on('exit', function () {
-    startStream.kill();
+    startStream.kill()
   })
 }
 
