@@ -12,16 +12,13 @@ let config
 
 const init = async () => {
   config = await getConfig()
-
   try {
-    jsonschema.validate(config, schema, { throwAll: true })
-  } catch (validationError) {
-    console.log('There were errors found in your config file:')
-    validationError.errors.forEach(e => {
-      console.log(e.stack.replace('instance.', ''))
-    })
+    await validateConfig(config)
+  } catch (e) {
     process.exit(0)
   }
+    
+
   twitch.connect(onMessageHandler, onConnectedHandler, config)
   bluetooth.startScan()
   stream.start(config)
@@ -65,6 +62,18 @@ const getConfig = () => {
       })
     }
   })
+}
+
+const validateConfig = async (config) => {
+  const result = jsonschema.validate(config, schema)
+
+  if (result.errors) {
+    console.log('There were errors found in your config file.')
+    result.errors.forEach(e => {
+      console.log(e.stack.replace('instance.', ''))
+    })
+    throw new Error(result)
+  }
 }
 
 module.exports = { init }
