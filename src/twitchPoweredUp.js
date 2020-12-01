@@ -15,7 +15,7 @@ const init = async () => {
   try {
     await validateConfig(config)
   } catch (e) {
-    process.exit(0)
+    process.exit(1)
   }
     
 
