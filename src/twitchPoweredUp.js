@@ -13,11 +13,11 @@ let tokens = []
 let config
 
 const init = async () => {
-  config = await getConfig()
-
   try {
+    config = await getConfig()
     validateConfig(config)
   } catch (e) {
+    console.error(e)
     process.exit(1)
   }
 
@@ -75,23 +75,20 @@ const update = () => {
 
 const getConfig = async () => {
   try {
-    return require(configPath)
+    await fs.promises.access(configPath)
   } catch (e) {
     await fs.promises.copyFile(examplePath, configPath)
-    console.log(`New config created at ${configPath}\nEnter Twitch tokens before running again.`)
-    process.exit(0)
+    throw new Error(`Config not found\nNew config created at ${configPath}\nEnter Twitch tokens before running again.`)
   }
+
+  return require(configPath)
 }
 
 const validateConfig = (config) => {
   const result = jsonschema.validate(config, schema)
 
   if (result.errors.length) {
-    console.log('There were errors found in your config file.')
-    result.errors.forEach(e => {
-      console.log(e.stack.replace('instance.', ''))
-    })
-    throw new Error(result)
+    throw new Error('There were errors found in your config file.\n' + result.errors)
   }
 }
 
