@@ -20,6 +20,10 @@
           "type": "string",
           "required": true
         },
+        "messageLifetime": {
+          "type": "int",
+          "required": true
+        },
         "stream": {
           "type": "object",
           "properties": {
