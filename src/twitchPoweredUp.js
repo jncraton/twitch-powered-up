@@ -9,7 +9,7 @@ const configPath = xdgBasedir.config + '/twitch-powered-up.json'
 const examplePath = __dirname.replace(/\\/g, '/').replace(/\/src$/, '/examples/exampleConfig.json')
 const schema = require('./config.schema.json')
 
-let allTokens = []
+let tokens = []
 let config
 
 const init = async () => {
@@ -35,7 +35,7 @@ const onMessageHandler = (target, context, msg, self) => {
   const token = twitch.actionTokenFromMessage(message, config)
 
   if (token.hub && token.port && token.method) {
-    allTokens.push(token)
+    tokens.push(token)
   }
 }
 
@@ -48,15 +48,21 @@ const update = () => {
   const now = new Date().getTime()
 
   // Filter out expired tokens
-  allTokens = allTokens.filter((token, i) => now - token.time < config.twitch.messageLifetime)
+  tokens = tokens.filter(token => now - token.time < config.twitch.messageLifetime)
 
   // Sort tokens by device and method and call method using average value
   config.devices.forEach(device => {
     const methods = new Set(device.actions.map(action => action.method))
     methods.forEach(method => {
-      const tokens = allTokens.filter(token => token.hub === device.hub && token.port === device.port && token.method === method)
+      const deviceMethodTokens = tokens.filter(token =>
+        token.hub === device.hub &&
+        token.port === device.port &&
+        token.method === method
+      )
 
-      const averageValue = tokens.reduce((sum, token) => token.value * token.multiplier / tokens.length + sum, 0)
+      const averageValue = deviceMethodTokens.reduce((sum, token) =>
+        token.value * token.multiplier / tokens.length + sum
+      , 0)
 
       const btDevice = bluetooth.getDevice(device.hub, device.port)
       if (btDevice) {
