@@ -55,11 +55,8 @@ const update = () => {
     const methods = new Set(device.actions.map(action => action.method))
     methods.forEach(method => {
       const tokens = allTokens.filter(token => token.hub === device.hub && token.port === device.port && token.method === method)
-      let averageValue = 0
-      if (tokens.length > 0) {
-        const valueSum = tokens.reduce((sum, token) => token.value * token.multiplier + sum, 0)
-        averageValue = valueSum / tokens.length
-      }
+
+      const averageValue = tokens.reduce((sum, token) => token.value * token.multiplier / tokens.length + sum, 0)
 
       const btDevice = bluetooth.getDevice(device.hub, device.port)
       if (btDevice) {
