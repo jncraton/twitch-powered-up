@@ -1,0 +1,103 @@
+{
+  "type": "object",
+  "properties": {
+    "twitch": {
+      "type": "object",
+      "properties": {
+        "auth": {
+          "type": "string",
+          "required": true
+        },
+        "refresh": {
+          "type": "string",
+          "required": true
+        },
+        "username": {
+          "type": "string",
+          "required": true
+        },
+        "channel": {
+          "type": "string",
+          "required": true
+        },
+        "stream": {
+          "type": "object",
+          "properties": {
+            "streamKey": {
+              "type": "string",
+              "required": true
+            },
+            "framerate": {
+              "type": "string",
+              "required": true
+            },
+            "ingestServer": {
+              "type": "string",
+              "required": true
+            },
+            "displayDevice": {
+              "type": "string",
+              "required": true
+            },
+            "qualityPreset": {
+              "type": "string",
+              "required": true
+            }
+          }
+        }
+      }
+    },
+    "devices": {
+      "type": "array",
+      "required": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "hub": {
+            "type": "string",
+            "required": true
+          },
+          "port": {
+            "type": "string",
+            "required": true
+          },
+          "nouns": {
+            "type": "array",
+            "required": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "actions": {
+            "type": "array",
+            "required": true,
+            "items": {
+              "type": "object",
+              "required": true,
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "required": true
+                },
+                "value": {
+                  "type": "int",
+                  "required": true
+                },
+                "multiplier": {
+                  "type": "int"
+                },
+                "verbs": {
+                  "type": "array",
+                  "required": true,
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
