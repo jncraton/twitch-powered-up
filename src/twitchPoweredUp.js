@@ -1,9 +1,6 @@
 const twitch = require('./twitch')
 const bluetooth = require('./bluetooth')
-<<<<<<< HEAD
-const config = require('../config.json')
-var allTokens = []
-=======
+
 const fs = require('fs')
 const stream = require('./stream')
 const xdgBasedir = require('xdg-basedir')
@@ -12,8 +9,8 @@ const configPath = xdgBasedir.config + '/twitch-powered-up.json'
 const examplePath = __dirname.replace(/\\/g, '/').replace(/\/src$/, '/examples/exampleConfig.json')
 const schema = require('./config.schema.json')
 
+const allTokens = []
 let config
->>>>>>> 7461da7d90814bbe3673ab87bb17b0011a73ad22
 
 const init = async () => {
   config = await getConfig()
@@ -25,11 +22,8 @@ const init = async () => {
 
   twitch.connect(onMessageHandler, onConnectedHandler, config)
   bluetooth.startScan()
-<<<<<<< HEAD
   setInterval(update, config.twitch.decay)
-=======
   stream.start(config)
->>>>>>> 7461da7d90814bbe3673ab87bb17b0011a73ad22
 }
 
 const onMessageHandler = (target, context, msg, self) => {
@@ -60,7 +54,6 @@ const onConnectedHandler = (addr, port) => {
   console.log(`Connected to ${addr}:${port}`)
 }
 
-<<<<<<< HEAD
 const update = () => {
   var now = new Date().getTime()
   for (var i = 0; i < allTokens.length; i++) {
@@ -102,14 +95,11 @@ const update = () => {
     newValue = newValue / numberOfElements
     var newMessage = currentToken.nouns[0] + ' ' + currentToken.verbs[0] + ' ' + newValue
     var newToken = twitch.actionTokenFromMessage(newMessage)
-    // Work.value = newValue
     useToken(newToken)
     average.splice(0, 1)
   }
 }
 
-init()
-=======
 const getConfig = () => {
   return new Promise(resolve => {
     try {
@@ -142,4 +132,3 @@ const validateConfig = async (config) => {
 }
 
 module.exports = { init }
->>>>>>> 7461da7d90814bbe3673ab87bb17b0011a73ad22
