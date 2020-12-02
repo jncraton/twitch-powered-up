@@ -22,7 +22,7 @@ const init = async () => {
 
   twitch.connect(onMessageHandler, onConnectedHandler, config)
   bluetooth.startScan()
-  setInterval(update, config.twitch.decay)
+  setInterval(update, 100)
   stream.start(config)
 }
 
@@ -40,7 +40,6 @@ const onMessageHandler = (target, context, msg, self) => {
 }
 
 const useToken = (token) => {
-  // const token  = twitch.actionTokenFromMessage(message)
   if (token.hub && token.port && token.method) {
     const device = bluetooth.getDevice(token.hub, token.port)
     if (device) {
@@ -58,7 +57,7 @@ const update = () => {
   var now = new Date().getTime()
   for (var i = 0; i < allTokens.length; i++) {
     // give the user a minute to add a new command before their origonal gets taken off
-    if (now - allTokens[i].time > 90000) {
+    if (now - allTokens[i].time > config.twitch.messageLifetime) {
       var popped = allTokens[i]
       allTokens.splice(i, 1)
       var Similar = false
@@ -70,7 +69,7 @@ const update = () => {
       }
       if (!Similar) {
         var msg = popped.nouns[0] + ' ' + popped.verbs[0] + ' ' + 0
-        var Default = twitch.actionTokenFromMessage(msg)
+        var Default = twitch.actionTokenFromMessage(msg, config)
         useToken(Default)
       }
     }
@@ -94,7 +93,7 @@ const update = () => {
     }
     newValue = newValue / numberOfElements
     var newMessage = currentToken.nouns[0] + ' ' + currentToken.verbs[0] + ' ' + newValue
-    var newToken = twitch.actionTokenFromMessage(newMessage)
+    var newToken = twitch.actionTokenFromMessage(newMessage, config)
     useToken(newToken)
     average.splice(0, 1)
   }
