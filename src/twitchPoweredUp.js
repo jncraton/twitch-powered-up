@@ -60,8 +60,8 @@ const update = () => {
         token.method === method
       )
 
-      const averageValue = deviceMethodTokens.reduce((sum, token) =>
-        token.value * token.multiplier / tokens.length + sum
+      const averageValue = deviceMethodTokens.reduce((avg, token) =>
+        token.value * token.multiplier / tokens.length + avg
       , 0)
 
       const btDevice = bluetooth.getDevice(device.hub, device.port)
