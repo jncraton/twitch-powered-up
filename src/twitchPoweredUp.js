@@ -14,8 +14,9 @@ let config
 
 const init = async () => {
   config = await getConfig()
+
   try {
-    await validateConfig(config)
+    validateConfig(config)
   } catch (e) {
     process.exit(1)
   }
@@ -72,26 +73,17 @@ const update = () => {
   })
 }
 
-const getConfig = () => {
-  return new Promise(resolve => {
-    try {
-      const config = require(configPath)
-      resolve(config)
-    } catch (e) {
-      fs.copyFile(examplePath, configPath, (err) => {
-        if (err) {
-          console.error({ message: 'There was an error', err })
-          process.exit(1)
-        } else {
-          console.log('twitch-powered-up.config was created: \n' + configPath + '\nmake sure to enter twitch tokens before running again.')
-          process.exit(0)
-        }
-      })
-    }
-  })
+const getConfig = async () => {
+  try {
+    return require(configPath)
+  } catch (e) {
+    await fs.promises.copyFile(examplePath, configPath)
+    console.log(`New config created at ${configPath}\nEnter Twitch tokens before running again.`)
+    process.exit(0)
+  }
 }
 
-const validateConfig = async (config) => {
+const validateConfig = (config) => {
   const result = jsonschema.validate(config, schema)
 
   if (result.errors.length) {
