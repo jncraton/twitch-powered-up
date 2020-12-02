@@ -9,7 +9,7 @@ const configPath = xdgBasedir.config + '/twitch-powered-up.json'
 const examplePath = __dirname.replace(/\\/g, '/').replace(/\/src$/, '/examples/exampleConfig.json')
 const schema = require('./config.schema.json')
 
-const allTokens = []
+let allTokens = []
 let config
 
 const init = async () => {
@@ -39,64 +39,34 @@ const onMessageHandler = (target, context, msg, self) => {
   }
 }
 
-const useToken = (token) => {
-  if (token.hub && token.port && token.method) {
-    const device = bluetooth.getDevice(token.hub, token.port)
-    if (device) {
-      device[token.method](token.value * token.multiplier)
-    }
-  }
-}
-
 // shows that we have connected to the twitch account
 const onConnectedHandler = (addr, port) => {
   console.log(`Connected to ${addr}:${port}`)
 }
 
 const update = () => {
-  var now = new Date().getTime()
-  for (var i = 0; i < allTokens.length; i++) {
-    // give the user a minute to add a new command before their origonal gets taken off
-    if (now - allTokens[i].time > config.twitch.messageLifetime) {
-      var popped = allTokens[i]
-      allTokens.splice(i, 1)
-      var Similar = false
-      for (var j = 0; i < allTokens.length; i++) {
-        if (popped.nouns[0] === allTokens[j].nouns[0]) {
-          Similar = true
-          break
-        }
-      }
-      if (!Similar) {
-        var msg = popped.nouns[0] + ' ' + popped.verbs[0] + ' ' + 0
-        var Default = twitch.actionTokenFromMessage(msg, config)
-        useToken(Default)
-      }
-    }
-  }
+  const now = new Date().getTime()
 
-  var average = []
-  for (var lcv = 0; lcv < allTokens.length; lcv++) {
-    average[lcv] = allTokens[lcv]
-  }
-  while (average.length) {
-    var currentToken = average[0]
-    var newValue = currentToken.value
-    var numberOfElements = 1
-    for (var k = 1; k < average.length; k++) {
-      if (currentToken.nouns[0] === average[k].nouns[0]) {
-        newValue = newValue + average[k].value
-        numberOfElements++
-        average.splice(k, 1)
-        k--
+  // Filter out expired tokens
+  allTokens = allTokens.filter((token, i) => now - token.time < config.twitch.messageLifetime)
+
+  // Sort tokens by device and method and call method using average value
+  config.devices.forEach(device => {
+    const methods = new Set(device.actions.map(action => action.method))
+    methods.forEach(method => {
+      const tokens = allTokens.filter(token => token.hub === device.hub && token.port === device.port && token.method === method)
+      let averageValue = 0
+      if (tokens.length > 0) {
+        const valueSum = tokens.reduce((sum, token) => token.value * token.multiplier + sum, 0)
+        averageValue = valueSum / tokens.length
       }
-    }
-    newValue = newValue / numberOfElements
-    var newMessage = currentToken.nouns[0] + ' ' + currentToken.verbs[0] + ' ' + newValue
-    var newToken = twitch.actionTokenFromMessage(newMessage, config)
-    useToken(newToken)
-    average.splice(0, 1)
-  }
+
+      const btDevice = bluetooth.getDevice(device.hub, device.port)
+      if (btDevice) {
+        btDevice[method](averageValue)
+      }
+    })
+  })
 }
 
 const getConfig = () => {
