@@ -1,9 +1,6 @@
 const twitch = require('./twitch')
 const bluetooth = require('./bluetooth')
-<<<<<<< HEAD
-const config = require('../config.json')
-var allTokens = []
-=======
+
 const fs = require('fs')
 const stream = require('./stream')
 const xdgBasedir = require('xdg-basedir')
@@ -12,8 +9,8 @@ const configPath = xdgBasedir.config + '/twitch-powered-up.json'
 const examplePath = __dirname.replace(/\\/g, '/').replace(/\/src$/, '/examples/exampleConfig.json')
 const schema = require('./config.schema.json')
 
+let tokens = []
 let config
->>>>>>> 7461da7d90814bbe3673ab87bb17b0011a73ad22
 
 const init = async () => {
   config = await getConfig()
@@ -25,11 +22,8 @@ const init = async () => {
 
   twitch.connect(onMessageHandler, onConnectedHandler, config)
   bluetooth.startScan()
-<<<<<<< HEAD
-  setInterval(update, config.twitch.decay)
-=======
+  setInterval(update, 100)
   stream.start(config)
->>>>>>> 7461da7d90814bbe3673ab87bb17b0011a73ad22
 }
 
 const onMessageHandler = (target, context, msg, self) => {
@@ -41,17 +35,7 @@ const onMessageHandler = (target, context, msg, self) => {
   const token = twitch.actionTokenFromMessage(message, config)
 
   if (token.hub && token.port && token.method) {
-    allTokens.push(token)
-  }
-}
-
-const useToken = (token) => {
-  // const token  = twitch.actionTokenFromMessage(message)
-  if (token.hub && token.port && token.method) {
-    const device = bluetooth.getDevice(token.hub, token.port)
-    if (device) {
-      device[token.method](token.value * token.multiplier)
-    }
+    tokens.push(token)
   }
 }
 
@@ -60,56 +44,34 @@ const onConnectedHandler = (addr, port) => {
   console.log(`Connected to ${addr}:${port}`)
 }
 
-<<<<<<< HEAD
 const update = () => {
-  var now = new Date().getTime()
-  for (var i = 0; i < allTokens.length; i++) {
-    // give the user a minute to add a new command before their origonal gets taken off
-    if (now - allTokens[i].time > 90000) {
-      var popped = allTokens[i]
-      allTokens.splice(i, 1)
-      var Similar = false
-      for (var j = 0; i < allTokens.length; i++) {
-        if (popped.nouns[0] === allTokens[j].nouns[0]) {
-          Similar = true
-          break
-        }
-      }
-      if (!Similar) {
-        var msg = popped.nouns[0] + ' ' + popped.verbs[0] + ' ' + 0
-        var Default = twitch.actionTokenFromMessage(msg)
-        useToken(Default)
-      }
-    }
-  }
+  const now = new Date().getTime()
 
-  var average = []
-  for (var lcv = 0; lcv < allTokens.length; lcv++) {
-    average[lcv] = allTokens[lcv]
-  }
-  while (average.length) {
-    var currentToken = average[0]
-    var newValue = currentToken.value
-    var numberOfElements = 1
-    for (var k = 1; k < average.length; k++) {
-      if (currentToken.nouns[0] === average[k].nouns[0]) {
-        newValue = newValue + average[k].value
-        numberOfElements++
-        average.splice(k, 1)
-        k--
+  // Filter out expired tokens
+  tokens = tokens.filter(token => now - token.time < config.twitch.messageLifetime)
+
+  // Sort tokens by device and method and call method using average value
+  config.devices.forEach(device => {
+    const methods = new Set(device.actions.map(action => action.method))
+    methods.forEach(method => {
+      const deviceMethodTokens = tokens.filter(token =>
+        token.hub === device.hub &&
+        token.port === device.port &&
+        token.method === method
+      )
+
+      const averageValue = deviceMethodTokens.reduce((avg, token) =>
+        token.value * token.multiplier / tokens.length + avg
+      , 0)
+
+      const btDevice = bluetooth.getDevice(device.hub, device.port)
+      if (btDevice) {
+        btDevice[method](averageValue)
       }
-    }
-    newValue = newValue / numberOfElements
-    var newMessage = currentToken.nouns[0] + ' ' + currentToken.verbs[0] + ' ' + newValue
-    var newToken = twitch.actionTokenFromMessage(newMessage)
-    // Work.value = newValue
-    useToken(newToken)
-    average.splice(0, 1)
-  }
+    })
+  })
 }
 
-init()
-=======
 const getConfig = () => {
   return new Promise(resolve => {
     try {
@@ -132,7 +94,7 @@ const getConfig = () => {
 const validateConfig = async (config) => {
   const result = jsonschema.validate(config, schema)
 
-  if (result.errors) {
+  if (result.errors.length) {
     console.log('There were errors found in your config file.')
     result.errors.forEach(e => {
       console.log(e.stack.replace('instance.', ''))
@@ -142,4 +104,3 @@ const validateConfig = async (config) => {
 }
 
 module.exports = { init }
->>>>>>> 7461da7d90814bbe3673ab87bb17b0011a73ad22
