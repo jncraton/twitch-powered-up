@@ -8,7 +8,7 @@ const rl = readline.createInterface({
   output: process.stdout
 })
 
-function main () {
+function init () {
   poweredUP.scan() // Start scanning for Hubs
   console.log('Scanning for Hubs...')
 
@@ -36,4 +36,4 @@ function confirmHubName (hub) {
   console.log('Hub name is now: ' + hub._name)
 }
 
-main()
+module.exports = { init }
