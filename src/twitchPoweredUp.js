@@ -94,7 +94,7 @@ const getConfig = () => {
 const validateConfig = async (config) => {
   const result = jsonschema.validate(config, schema)
 
-  if (result.errors.length > 0) {
+  if (result.errors.length) {
     console.log('There were errors found in your config file.')
     result.errors.forEach(e => {
       console.log(e.stack.replace('instance.', ''))
