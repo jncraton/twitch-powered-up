@@ -66,7 +66,7 @@ const actionTokenFromMessage = (msg) => {
   } catch (e) {
     debug('no value found')
   }
-
+  token.time = new Date().getTime()
   return token
 }
 
