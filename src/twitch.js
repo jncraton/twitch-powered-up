@@ -69,7 +69,7 @@ const actionTokenFromMessage = (msg, config) => {
   } catch (e) {
     debug('no value found')
   }
-
+  token.time = new Date().getTime()
   return token
 }
 
