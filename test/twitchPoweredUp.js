@@ -1,9 +1,15 @@
 const assert = require('assert').strict
-const twitchPoweredUp = require('../src/twitchPoweredUp')
+const configjs = require('../src/config')
 const config = require('../examples/exampleConfig.json')
 
-const test = async () => {
-  await twitchPoweredUp.checkValidConfig(config)
+const test = () => {
+  configjs.validateConfig(config)
+  assert.throws(
+    () => {
+      configjs.validateConfig({})
+    },
+    Error
+  )
 }
 
-test()
+module.exports = { test }
