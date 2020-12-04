@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node bin/twitch-powered-up.js",
-    "test": "node test/twitch.js && standard"
+    "test": "node test/test.js && standard"
   },
   "repository": {
     "type": "git",
