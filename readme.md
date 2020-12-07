@@ -12,7 +12,9 @@ This project is similar in concept to the classic [Twitch Plays Pokemon](https:/
 
 ![TPP animation](https://upload.wikimedia.org/wikipedia/en/1/15/Twitch_plays_pokemon_animated.gif)
 
-A LEGO model is live streamed via Twitch.tv, and viewers are able to control it by sending commands over Twitch chat.
+A LEGO model is live streamed via Twitch.tv, and viewers are able to control it by sending commands over Twitch chat. Here's what a stream looks like in actions:
+
+![Demo video](https://github.com/jncraton/twitch-powered-up/blob/media/demo-optimized.gif?raw=true)
 
 System Overview
 ---------------
