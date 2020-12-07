@@ -8,7 +8,7 @@ Software to interact with the LEGO Powered Up elements via Twitch.tv chat using 
 Overview
 --------
 
-This project is similar in concept to the classic [Twitch Plays Pokemon](https://en.wikipedia.org/wiki/Twitch_Plays_Pok%C3%A9mon) ([video](https://www.twitch.tv/videos/40790582). A LEGO model is streamed via Twitch.tv, and viewers are able to control it by sending commands over Twitch chat. Here's what a stream looks like in action:
+This project is similar in concept to the classic [Twitch Plays Pokemon](https://en.wikipedia.org/wiki/Twitch_Plays_Pok%C3%A9mon) ([video](https://www.twitch.tv/videos/40790582)). A LEGO model is streamed via Twitch.tv, and viewers are able to control it by sending commands over Twitch chat. Here's what a stream looks like in action:
 
 ![Demo video](https://github.com/jncraton/twitch-powered-up/blob/media/demo-optimized.gif?raw=true)
 
