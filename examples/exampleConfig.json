@@ -4,6 +4,7 @@
         "refresh": "{OAuthRefreshToken}",
         "username": "twitchpoweredup",
         "channel": "twitchpoweredup",
+        "messageLifetime": 5000,
         "stream" : {
             "streamKey": "{StreamKey}",
             "ingestServer": "live-ord02",
