@@ -46,6 +46,18 @@
             "qualityPreset": {
               "type": "string",
               "required": true
+            },
+            "bitrate": {
+              "type": "string",
+              "required": true
+            },
+            "videoSize": {
+              "type": "string",
+              "required": true
+            },
+            "videoFilter": {
+              "type": "string",
+              "required": true
             }
           }
         }
