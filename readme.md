@@ -17,6 +17,8 @@ This is similar in concept to the classic [Twitch Plays Pokemon](https://en.wiki
 System Overview
 ---------------
 
+![Basic system diagram](https://github.com/jncraton/twitch-powered-up/blob/media/diagram.png?raw=true)
+
 - LEGO Powered Up hubs are paired with a host device (Raspberry Pi) via Bluetooth.
 - Host device monitors a Twitch chat room for commands and uses commands to control LEGO elements connected to hubs.
 - Host device streams a webcam via Twitch showing the live state of the LEGO model.
