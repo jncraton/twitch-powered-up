@@ -62,7 +62,8 @@ The following command will download the package from npm and configure it to be 
 npm install -g twitch-powered-up
 ```
 
-### Configuration
+Configuration
+-------------
 
 The application expects a valid configuration file to be present as `~/.config/twitch-powered-up.json`. An example config will be created for you on first run of the following command:
 
@@ -72,13 +73,13 @@ twitch-powered-up
 
 The example configuration file `~/.config/twitch-powered-up.json` can now be edited using the program of your choice. 
 
-#### Devices
+### Devices
 
 The `devices` section is used to map `nouns` and `actions` to a port on a hub.
 
 Ports are identified using the single capital letter stamped on the device (`A`, `B`, etc). Hubs are identified by their configured names. Names can be discovered and changed using the Powered Up mobile app, or by using the `tpu-rename-hub` script included with this project.
 
-#### Twitch
+### Twitch
 
 The `twitch` section is used to configure stream keys and parameters. The following steps will create and add your Twitch keys.
 
