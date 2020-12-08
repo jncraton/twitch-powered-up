@@ -87,14 +87,9 @@ The `twitch` section is used to configure stream keys and parameters. The follow
 2. Go into settings and [set up two-factor authentication](https://help.twitch.tv/s/article/two-factor-authentication-with-authy?language=en_US). 
 3. Use your account to register [on Twitch's app registration website](https://dev.twitch.tv/dashboard/apps/create). 
 4. Get an OAuth token from [this generator](https://twitchtokengenerator.com/) or another. Select the chat bot option. Scroll down and allow chat_login, chat:read, chat:edit, channel:moderate permissions. Copy both the OAuth token and refresh token to the appropriate fields in the config file.
+5. Copy your [stream key](https://www.twitch.tv/broadcast/dashboard/streamkey) and add it to the config file.
 
-### Config File
-
-- Add the OAuth Token and the Refresh Token.
-- Add the bot username, and expected channel it will go to.
-- Add the stream key.
-- Put the Mac Addresses in the config file under the appropriate spots with their device name and place a colon (:) where the underscores are, as the example shows.
-- Under "devices" you must fill in the hub name, the port name on the hub, and under "nouns" fill in the vocabulary that you want to be used to recognize that device within the chat.
+You should also add your accounts username and channel name to config file.
 
 Usage
 ------------
