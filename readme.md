@@ -8,9 +8,11 @@ Software to interact with the LEGO Powered Up elements via Twitch.tv chat using 
 Overview
 --------
 
-This project is similar in concept to the classic [Twitch Plays Pokemon](https://en.wikipedia.org/wiki/Twitch_Plays_Pok%C3%A9mon) ([video](https://www.twitch.tv/videos/40790582)). A LEGO model is streamed via Twitch.tv, and viewers are able to control it by sending commands over Twitch chat. Here's what a stream looks like in action:
+A LEGO model is streamed via Twitch.tv, and viewers are able to control it by sending commands over Twitch chat.
 
 ![Demo video](https://github.com/jncraton/twitch-powered-up/blob/media/demo-optimized.gif?raw=true)
+
+This is similar in concept to the classic [Twitch Plays Pokemon](https://en.wikipedia.org/wiki/Twitch_Plays_Pok%C3%A9mon) ([video](https://www.twitch.tv/videos/40790582)), and is inspired by on old [question on Bricks Stack Exchange](https://bricks.stackexchange.com/questions/10486/can-powered-up-trains-talk-to-multiple-bluetooth-remotes) asking about the ability for multiple users to control a single LEGO train.
 
 System Overview
 ---------------
@@ -23,19 +25,24 @@ System Overview
 Supported Hardware
 ------------------
 
-This software has been designed and tested to run on a Raspberry Pi 4, but it should be able to run on most devices that supports Bluetooth Low Energy.
+This software has been designed and tested to run on a Raspberry Pi 4, but it should be able to run on most devices that support Bluetooth Low Energy.
 
 ### LEGO Elements
 
+The software has been tested on the following components:
+
+- Boost Move Hub (88006)
 - Hub (88009)
 - Medium Linear Motor (45303)
 - Light (88005)
 - Train Motor (88011)
 
+It should also be compatible with any [devices supported by node-poweredup](https://github.com/nathankellenicki/node-poweredup#compatibility).
+
 Set-Up
 -------
 
-Bot Creation:
+### Bot Creation
 
 On any computer-
 
@@ -44,7 +51,7 @@ On any computer-
 - Use that account to register [on Twitch's app registration website](https://dev.twitch.tv/dashboard/apps/create). 
 - Get an OAuth token from [this generator](https://twitchtokengenerator.com/) or another. Select the chat bot option. Scroll down and allow chat_login, chat:read, chat:edit, channel:moderate permisions. Copy both the OAuth Token and Refresh Token, you will need them later. Do not share these codes, as they give a lot of access to your account. 
 
-Discovering Mac Addresses: 
+### Discovering Mac Addresses
 
 - Click the green button on top of the bluetooth device to make it discoverable. 
 - In the Raspberry Pi-
@@ -55,7 +62,7 @@ Discovering Mac Addresses:
 - Repeat for all bluetooth devices that will need communication. 
 - These identifiers are Mac Addresses. 
 
-Config File:
+### Config File
 
 - Add the OAuth Token and the Refresh Token.
 - Add the bot username, and expected channel it will go to.
@@ -74,6 +81,7 @@ Usage
 
 Example
 ------------
+
 - This example is for the train motor and with the motor named "red train"
 - The line "red train go 50" in the chat will make the red train go forwards at a speed of 50, but if more commands are given it will average the speed. 
 - Only what you want pulled out of the phrase will be accepted as well, so you don't need to arrange the words you want in any way, they just all need to be in the phrase. So for example: "I want the red train to move forward at a speed of 50" will only pull out "red train", "forward", and "50". 
