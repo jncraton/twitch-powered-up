@@ -12,7 +12,7 @@ A LEGO model is streamed via Twitch.tv, and viewers are able to control it by se
 
 ![Demo video](https://github.com/jncraton/twitch-powered-up/blob/media/demo-optimized.gif?raw=true)
 
-This is similar in concept to the classic [Twitch Plays Pokemon](https://en.wikipedia.org/wiki/Twitch_Plays_Pok%C3%A9mon) ([video](https://www.twitch.tv/videos/40790582)), and is inspired by on old [question on Bricks Stack Exchange](https://bricks.stackexchange.com/questions/10486/can-powered-up-trains-talk-to-multiple-bluetooth-remotes) asking about the ability for multiple users to control a single LEGO train.
+This is similar in concept to the classic [Twitch Plays Pokemon](https://en.wikipedia.org/wiki/Twitch_Plays_Pok%C3%A9mon) ([video](https://www.twitch.tv/videos/40790582)), and is inspired by an old [question on Bricks Stack Exchange](https://bricks.stackexchange.com/questions/10486/can-powered-up-trains-talk-to-multiple-bluetooth-remotes) asking about the ability for multiple users to control a single LEGO train.
 
 System Overview
 ---------------
@@ -49,17 +49,17 @@ On any computer-
 - Create a [Twitch Account](https://twitch.tv) using the sign up button in the top right. This step can be skipped if you have one created. 
 - Go into settings and [set up two-factor authentication](https://help.twitch.tv/s/article/two-factor-authentication-with-authy?language=en_US). 
 - Use that account to register [on Twitch's app registration website](https://dev.twitch.tv/dashboard/apps/create). 
-- Get an OAuth token from [this generator](https://twitchtokengenerator.com/) or another. Select the chat bot option. Scroll down and allow chat_login, chat:read, chat:edit, channel:moderate permisions. Copy both the OAuth Token and Refresh Token, you will need them later. Do not share these codes, as they give a lot of access to your account. 
+- Get an OAuth token from [this generator](https://twitchtokengenerator.com/) or another. Select the chat bot option. Scroll down and allow chat_login, chat:read, chat:edit, channel:moderate permissions. Copy both the OAuth Token and Refresh Token, you will need them later. Do not share these codes, as they give a lot of access to your account. 
 
 ### Discovering Mac Addresses
 
-- Click the green button on top of the bluetooth device to make it discoverable. 
+- Click the green button on top of the Bluetooth device to make it discoverable. 
 - In the Raspberry Pi-
-- Click on the bluetooth symbol in the top right corner.
+- Click on the Bluetooth symbol in the top right corner.
 - Click add new device, this pops up a new box with possibly many different device options.
 - Find the Lego piece names you need. The hub is labeled as just "Hub" with numbers behind it. 
 - Hover the mouse over the piece, this pops up a box where the last of it is 6 pairs of numbers/letters divided by underscores. Write these down. 
-- Repeat for all bluetooth devices that will need communication. 
+- Repeat for all Bluetooth devices that will need communication. 
 - These identifiers are Mac Addresses. 
 
 ### Config File
@@ -72,7 +72,7 @@ On any computer-
 
 Usage
 ------------
-- A webcam will be used to see the device you are interacting with through the chat. The framerate and quality preset are filled in in the exampleConfig file, these will need to chang depending on your webcam. The link below leads to Twitch's recommendation for streaming with different webcams.
+- A webcam will be used to see the device you are interacting with through the chat. The framerate and quality preset are filled in in the exampleConfig file, these will need to change depending on your webcam. The link below leads to Twitch's recommendation for streaming with different webcams.
 - [Twitch's recommendation](https://stream.twitch.tv/encoding/)
 - Run the command "npm start".
 - Turn on the hubs and set them to pair, the program will begin scanning for hubs upon start, and the Bluetooth will pair automatically. 
