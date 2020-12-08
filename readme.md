@@ -41,17 +41,51 @@ The software has been tested on the following components:
 
 It should also be compatible with any [devices supported by node-poweredup](https://github.com/nathankellenicki/node-poweredup#compatibility).
 
-Set-Up
--------
+Installation
+------------
 
-### Bot Creation
+These instructions assume that you are installing and running the software on a Raspberry Pi 4 running [Raspberry Pi OS](https://www.raspberrypi.org/software/).
 
-On any computer-
+### Dependencies
 
-- Create a [Twitch Account](https://twitch.tv) using the sign up button in the top right. This step can be skipped if you have one created. 
-- Go into settings and [set up two-factor authentication](https://help.twitch.tv/s/article/two-factor-authentication-with-authy?language=en_US). 
-- Use that account to register [on Twitch's app registration website](https://dev.twitch.tv/dashboard/apps/create). 
-- Get an OAuth token from [this generator](https://twitchtokengenerator.com/) or another. Select the chat bot option. Scroll down and allow chat_login, chat:read, chat:edit, channel:moderate permissions. Copy both the OAuth Token and Refresh Token, you will need them later. Do not share these codes, as they give a lot of access to your account. 
+We first install a number of dependencies.
+
+```
+sudo apt install npm ffmpeg bluetooth bluez libbluetooth-dev libudev-dev
+```
+
+### Package
+
+The following command will download the package from npm and configure it to be accessible globally on your system.
+
+```
+npm install -g twitch-powered-up
+```
+
+### Configuration
+
+The application expects a valid configuration file to be present as `~/.config/twitch-powered-up.json`. An example config will be created for you on first run of the following command:
+
+```
+twitch-powered-up
+```
+
+The example configuration file `~/.config/twitch-powered-up.json` can now be edited using the program of your choice. 
+
+#### Devices
+
+The `devices` section is used to map `nouns` and `actions` to a port on a hub.
+
+Ports are identified using the single capital letter stamped on the device (`A`, `B`, etc). Hubs are identified by their configured names. Names can be discovered using the Powered Up mobile app, or by using the hub renaming script included with this project.
+
+#### Twitch
+
+The `twitch` section is used to configure stream keys and parameters. The following steps can be followed to create and add your Twitch keys.
+
+1. Create a [Twitch Account](https://twitch.tv) if you do not already have one.
+2. Go into settings and [set up two-factor authentication](https://help.twitch.tv/s/article/two-factor-authentication-with-authy?language=en_US). 
+3. Use your account to register [on Twitch's app registration website](https://dev.twitch.tv/dashboard/apps/create). 
+4. Get an OAuth token from [this generator](https://twitchtokengenerator.com/) or another. Select the chat bot option. Scroll down and allow chat_login, chat:read, chat:edit, channel:moderate permissions. Copy both the OAuth token and refresh token to the appropriate fields in the config file.
 
 ### Discovering Mac Addresses
 
