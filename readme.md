@@ -22,6 +22,8 @@ System Overview
 - Host device streams a webcam via Twitch showing the live state of the LEGO model.
 - Command messages will be averaged for speeds and brightness.
 
+![Basic system diagram](https://github.com/jncraton/twitch-powered-up/blob/media/diagram.png?raw=true)
+
 Supported Hardware
 ------------------
 
