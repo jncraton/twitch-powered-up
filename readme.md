@@ -89,7 +89,7 @@ The `twitch` section is used to configure stream keys and parameters. The follow
 4. Get an OAuth token from [this generator](https://twitchtokengenerator.com/) or another. Select the chat bot option. Scroll down and allow chat_login, chat:read, chat:edit, channel:moderate permissions. Copy both the OAuth token and refresh token to the appropriate fields in the config file.
 5. Copy your [stream key](https://www.twitch.tv/broadcast/dashboard/streamkey) and add it to the config file.
 
-You should also add your accounts username and channel name to config file.
+You should also add your account's username and channel name to config file.
 
 Usage
 ------------
