@@ -10,7 +10,10 @@
             "ingestServer": "live-ord02",
             "displayDevice": "/dev/video0",
             "framerate": "30",
-            "qualityPreset": "ultrafast"
+            "qualityPreset": "ultrafast",
+            "bitrate": "1000k",
+            "videoSize": "640x480",
+            "videoFilter": "crop=640:360:0:60"
         }
     },
     "devices": [

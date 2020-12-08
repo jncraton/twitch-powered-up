@@ -3,13 +3,27 @@
 const { exec } = require('child_process')
 
 function start (config) {
-  const STREAM_KEY = config.twitch.stream.streamKey // Stream key from twitch that is read from the config file
-  const INGEST_SERVER = config.twitch.stream.ingestServer // twitch server in Chicago, see https://bashtech.net/twitch/ingest.php to change
-  const DISPLAY_DEVICE = config.twitch.stream.displayDevice
-  const FRAMERATE = config.twitch.stream.framerate
-  const QUALITY = config.twitch.stream.qualityPreset // one of the many FFMPEG preset
-
-  const cmdString = `ffmpeg -loglevel panic -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 -f v4l2 -video_size 640x480 -i ${DISPLAY_DEVICE} -fflags nobuffer -tune zerolatency -vcodec libx264 -r ${FRAMERATE} -vf "crop=640:360:0:60" -g 30 -pix_fmt yuv420p -preset ${QUALITY} -b:v 1000k -force_key_frames 0:00:02  -f flv "rtmp://${INGEST_SERVER}.twitch.tv/app/${STREAM_KEY}"`
+  const cmdString = `
+    ffmpeg 
+      -loglevel panic 
+      -f lavfi 
+      -i anullsrc=channel_layout=stereo:sample_rate=44100 
+      -f v4l2 
+      -video_size ${config.twitch.stream.videoSize} 
+      -i ${config.twitch.stream.displayDevice}
+      -fflags nobuffer 
+      -tune zerolatency 
+      -vcodec libx264 
+      -r ${config.twitch.stream.framerate} 
+      -vf ${config.twitch.stream.videoFilter}
+      -g 30
+      -pix_fmt yuv420p
+      -preset ${config.twitch.stream.qualityPreset} 
+      -b:v ${config.twitch.stream.bitrate} 
+      -force_key_frames 0:00:02 
+      -f flv 
+      "rtmp://${config.twitch.stream.ingestServer}.twitch.tv/app/${config.twitch.stream.streamKey}"
+  `
 
   const startStream = exec(cmdString, (error, stdout, stderr) => {
     if (error) {
