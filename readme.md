@@ -87,17 +87,6 @@ The `twitch` section is used to configure stream keys and parameters. The follow
 3. Use your account to register [on Twitch's app registration website](https://dev.twitch.tv/dashboard/apps/create). 
 4. Get an OAuth token from [this generator](https://twitchtokengenerator.com/) or another. Select the chat bot option. Scroll down and allow chat_login, chat:read, chat:edit, channel:moderate permissions. Copy both the OAuth token and refresh token to the appropriate fields in the config file.
 
-### Discovering Mac Addresses
-
-- Click the green button on top of the Bluetooth device to make it discoverable. 
-- In the Raspberry Pi-
-- Click on the Bluetooth symbol in the top right corner.
-- Click add new device, this pops up a new box with possibly many different device options.
-- Find the Lego piece names you need. The hub is labeled as just "Hub" with numbers behind it. 
-- Hover the mouse over the piece, this pops up a box where the last of it is 6 pairs of numbers/letters divided by underscores. Write these down. 
-- Repeat for all Bluetooth devices that will need communication. 
-- These identifiers are Mac Addresses. 
-
 ### Config File
 
 - Add the OAuth Token and the Refresh Token.
