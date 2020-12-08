@@ -76,11 +76,11 @@ The example configuration file `~/.config/twitch-powered-up.json` can now be edi
 
 The `devices` section is used to map `nouns` and `actions` to a port on a hub.
 
-Ports are identified using the single capital letter stamped on the device (`A`, `B`, etc). Hubs are identified by their configured names. Names can be discovered using the Powered Up mobile app, or by using the hub renaming script included with this project.
+Ports are identified using the single capital letter stamped on the device (`A`, `B`, etc). Hubs are identified by their configured names. Names can be discovered and changed using the Powered Up mobile app, or by using the `tpu-rename-hub` script included with this project.
 
 #### Twitch
 
-The `twitch` section is used to configure stream keys and parameters. The following steps can be followed to create and add your Twitch keys.
+The `twitch` section is used to configure stream keys and parameters. The following steps will create and add your Twitch keys.
 
 1. Create a [Twitch Account](https://twitch.tv) if you do not already have one.
 2. Go into settings and [set up two-factor authentication](https://help.twitch.tv/s/article/two-factor-authentication-with-authy?language=en_US). 
