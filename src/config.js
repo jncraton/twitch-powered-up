@@ -10,6 +10,10 @@ const getConfig = async () => {
     await fs.promises.access(configPath)
   } catch (e) {
     const examplePath = __dirname.replace(/\\/g, '/').replace(/\/src$/, '/examples/config.json')
+    // Make directory if it does not exist
+    try {
+      fs.mkdirSync(xdgBasedir.config)
+    } catch (e) {}
     await fs.promises.copyFile(examplePath, configPath)
     throw new Error(`Config not found\nNew config created at ${configPath}\nEnter Twitch tokens before running again.`)
   }
