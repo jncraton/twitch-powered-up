@@ -84,7 +84,7 @@ Quick Install
 If you would prefer, you can also automate the above steps by simply running:
 
 ```
-curl https://raw.githubusercontent.com/jncraton/twitch-powered-up/install | sudo bash -
+curl https://raw.githubusercontent.com/jncraton/twitch-powered-up/master/install | bash -
 ```
 
 Configuration
