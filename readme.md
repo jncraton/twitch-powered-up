@@ -44,21 +44,32 @@ It should also be compatible with any [devices supported by node-poweredup](http
 Installation
 ------------
 
-These instructions assume that you are installing and running the software on a Raspberry Pi 4 running [Raspberry Pi OS](https://www.raspberrypi.org/software/).
+These instructions assume that you are installing and running the software on a Raspberry Pi 4 running [Raspberry Pi OS](https://www.raspberrypi.org/software/). Any of the base images should be fine. This has been tested using the lite image.
 
 ### Dependencies
 
-We first install a number of dependencies. Depending on you're OS there are [certain dependencies that also need to be set up.](https://github.com/abandonware/noble#prerequisites).
+We first install a number of dependencies on our Pi. If you are using another device or OS, there may be [other dependencies](https://github.com/abandonware/noble#prerequisites) that also need to be installed.
 
 ```
-sudo apt install npm ffmpeg bluetooth bluez libbluetooth-dev libudev-dev
+sudo apt install ffmpeg bluetooth bluez libbluetooth-dev libudev-dev
+```
+
+#### Node and NPM
+
+We'll install these from nodesource to get a properly configured recent version of node:
+
+```
+curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
+sudo apt install nodejs
 ```
 
 ### Package
 
-The following command will download the package from npm and configure it to be accessible globally on your system.
+The following command will download the package from npm and configure it to be accessible globally on your system. The first two lines work around an issue installing a few packages globally on the Pi.
 
 ```
+sudo mkdir -p /usr/lib/node_modules
+sudo chown pi:pi /usr/lib/node_modules
 npm install -g twitch-powered-up
 ```
 
