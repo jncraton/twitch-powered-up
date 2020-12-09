@@ -48,7 +48,7 @@ These instructions assume that you are installing and running the software on a 
 
 ### Dependencies
 
-We first install a number of dependencies.
+We first install a number of dependencies. Depending on you're OS there are [certain dependencies that also need to be set up.](https://github.com/abandonware/noble#prerequisites).
 
 ```
 sudo apt install npm ffmpeg bluetooth bluez libbluetooth-dev libudev-dev
