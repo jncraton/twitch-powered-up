@@ -14,37 +14,17 @@ A LEGO model is streamed via Twitch.tv, and viewers are able to control it by se
 
 This is similar in concept to the classic [Twitch Plays Pokemon](https://en.wikipedia.org/wiki/Twitch_Plays_Pok%C3%A9mon) ([video](https://www.twitch.tv/videos/40790582)), and is inspired by an old [question on Bricks Stack Exchange](https://bricks.stackexchange.com/questions/10486/can-powered-up-trains-talk-to-multiple-bluetooth-remotes) asking about the ability for multiple users to control a single LEGO train.
 
-System Overview
----------------
-
-![Basic system diagram](https://github.com/jncraton/twitch-powered-up/blob/media/diagram.png?raw=true)
-
-- LEGO Powered Up hubs are paired with a host device (Raspberry Pi) via Bluetooth.
-- Host device monitors a Twitch chat room for commands and uses commands to control LEGO elements connected to hubs.
-- Host device streams a webcam via Twitch showing the live state of the LEGO model.
-- Command messages will be averaged for speeds and brightness.
-
-Supported Hardware
-------------------
-
-This software has been designed and tested to run on a Raspberry Pi 4, but it should be able to run on most devices that support Bluetooth Low Energy.
-
-### LEGO Elements
-
-The software has been tested on the following components:
-
-- Boost Move Hub (88006)
-- Hub (88009)
-- Medium Linear Motor (45303)
-- Light (88005)
-- Train Motor (88011)
-
-It should also be compatible with any [devices supported by node-poweredup](https://github.com/nathankellenicki/node-poweredup#compatibility).
-
 Installation
 ------------
 
-These instructions assume that you are installing and running the software on a Raspberry Pi 4 running [Raspberry Pi OS](https://www.raspberrypi.org/software/). Any of the base images should be fine. This has been tested using the lite image.
+We assume you are using a Raspberry Pi 4 running [Raspberry Pi OS](https://www.raspberrypi.org/software/). Any of the base images should be fine. This has been tested using the lite image. The following command is the simplest way to get started:
+
+```
+curl https://raw.githubusercontent.com/jncraton/twitch-powered-up/master/install | bash -
+```
+
+<details>
+    <summary>Detailed install instructions</summary>
 
 ### Dependencies
 
@@ -78,14 +58,7 @@ echo "export PATH=$HOME/.npm/bin:$PATH" >> ~/.profile
 source ~/.profile
 ```
 
-Quick Install
--------------
-
-If you would prefer, you can also automate the above steps by simply running:
-
-```
-curl https://raw.githubusercontent.com/jncraton/twitch-powered-up/master/install | bash -
-```
+</details>
 
 Configuration
 -------------
@@ -131,6 +104,33 @@ Example
 - This example is for the train motor and with the motor named "red train"
 - The line "red train go 50" in the chat will make the red train go forwards at a speed of 50, but if more commands are given it will average the speed. 
 - Only what you want pulled out of the phrase will be accepted as well, so you don't need to arrange the words you want in any way, they just all need to be in the phrase. So for example: "I want the red train to move forward at a speed of 50" will only pull out "red train", "forward", and "50". 
+
+System Overview
+---------------
+
+![Basic system diagram](https://github.com/jncraton/twitch-powered-up/blob/media/diagram.png?raw=true)
+
+- LEGO Powered Up hubs are paired with a host device (Raspberry Pi) via Bluetooth.
+- Host device monitors a Twitch chat room for commands and uses commands to control LEGO elements connected to hubs.
+- Host device streams a webcam via Twitch showing the live state of the LEGO model.
+- Command messages will be averaged for speeds and brightness.
+
+Supported Hardware
+------------------
+
+This software has been designed and tested to run on a Raspberry Pi 4, but it should be able to run on most devices that support Bluetooth Low Energy.
+
+### LEGO Elements
+
+The software has been tested on the following components:
+
+- Boost Move Hub (88006)
+- Hub (88009)
+- Medium Linear Motor (45303)
+- Light (88005)
+- Train Motor (88011)
+
+It should also be compatible with any [devices supported by node-poweredup](https://github.com/nathankellenicki/node-poweredup#compatibility).
 
 Contributing
 ------------
