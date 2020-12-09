@@ -1,5 +1,5 @@
 const assert = require('assert').strict
-const config = require('../examples/exampleConfig.json')
+const config = require('../examples/config.json')
 const messages = require('../src/messages')
 
 const test = () => {

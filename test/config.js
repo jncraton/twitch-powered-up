@@ -1,6 +1,6 @@
 const assert = require('assert').strict
 const configjs = require('../src/config')
-const config = require('../examples/exampleConfig.json')
+const config = require('../examples/config.json')
 
 const test = () => {
   configjs.validateConfig(config)
