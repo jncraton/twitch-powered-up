@@ -1,6 +1,6 @@
 {
   "name": "twitch-powered-up",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Twitch Powered Up",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/jncraton/twitch-powered-up#readme",
   "dependencies": {
-    "debug": "^4.2.0",
+    "debug": "^4.3.1",
     "jsonschema": "^1.4.0",
     "node-poweredup": "^6.7.0",
     "save": "^2.4.0",
