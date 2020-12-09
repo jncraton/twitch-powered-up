@@ -26,9 +26,9 @@ const actionTokenFromMessage = (msg) => {
 
   const numbers = msg.match(/-?\d+/)
 
-  if (numbers.length > 0) { 
-    token.value = parseInt(numbers[0]
-  )
+  if (numbers) {
+    token.value = parseInt(numbers[0])
+  }
 
   token.value = Math.max(token.value, token.min)
   token.value = Math.min(token.value, token.max)
