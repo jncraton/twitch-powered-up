@@ -1,14 +1,15 @@
 const fs = require('fs')
 const jsonschema = require('jsonschema')
 const xdgBasedir = require('xdg-basedir')
-const configPath = xdgBasedir.config + '/twitch-powered-up.json'
-const examplePath = __dirname.replace(/\\/g, '/').replace(/\/src$/, '/examples/exampleConfig.json')
 const schema = require('./config.schema.json')
 
 const getConfig = async () => {
+  const configPath = xdgBasedir.config + '/twitch-powered-up.json'
+
   try {
     await fs.promises.access(configPath)
   } catch (e) {
+    const examplePath = __dirname.replace(/\\/g, '/').replace(/\/src$/, '/examples/config.json')
     await fs.promises.copyFile(examplePath, configPath)
     throw new Error(`Config not found\nNew config created at ${configPath}\nEnter Twitch tokens before running again.`)
   }
