@@ -3,7 +3,7 @@ Twitch Powered Up
 
 ![build](https://github.com/jncraton/twitch-powered-up/workflows/build/badge.svg)
 
-Software to interact with the LEGO Powered Up elements via Twitch.tv chat using a Raspberry Pi.
+Software to interact with the LEGO Powered Up elements via Twitch chat using a Raspberry Pi.
 
 Overview
 --------
@@ -109,7 +109,7 @@ The program will connect to the chat and begin streaming. It will begin scanning
 
 ### Chat Example
 
-This example is for the train motor and with the motor named "red train".
+This example is for the train motor with the motor named "red train".
 
 - The message "red train go 50" in the chat will make the red train go forwards at a speed of 50
 - If more commands are given by other users, it will average the speed
