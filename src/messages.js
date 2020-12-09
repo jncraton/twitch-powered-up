@@ -58,11 +58,14 @@ const add = (message, username = '') => {
   }
 }
 
-const expire = (messageLifetime) => {
+const expire = (globalLifetime) => {
   const now = new Date().getTime()
 
   // Filter out expired tokens
-  tokens = tokens.filter(token => now - token.time < messageLifetime)
+  tokens = tokens.filter(token => {
+    const lifetime = typeof token.lifetime === 'undefined' ? globalLifetime : token.lifetime
+    return now - token.time < lifetime
+  })
 }
 
 const getAverageValue = (hub, port, method) => {

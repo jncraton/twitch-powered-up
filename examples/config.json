@@ -90,6 +90,15 @@
                 {
                     "method": "setBrightness",
                     "verbs": [
+                        "flash",
+                        "blink"
+                    ],
+                    "value": 80,
+                    "lifetime": 1
+                },
+                {
+                    "method": "setBrightness",
+                    "verbs": [
                         "off"
                     ],
                     "value": 0
