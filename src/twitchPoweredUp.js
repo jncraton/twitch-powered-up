@@ -5,6 +5,7 @@ const stream = require('./stream')
 
 let tokens = []
 let config
+let currentSpeed = {}
 
 const init = async () => {
   try {
@@ -30,6 +31,11 @@ const onMessageHandler = (target, context, msg, self) => {
   const token = twitch.actionTokenFromMessage(message, config)
 
   if (token.hub && token.port && token.method) {
+    if(token.relative) {
+      if(currentSpeed[token.hub + token.port]) {
+        token.value = currentSpeed[token.hub + token.port] + token.value * ((typeof token.multiplier != 'undefined') ? token.multiplier : 1)
+      }
+    }
     tokens.push(token)
   }
 }
@@ -62,6 +68,7 @@ const update = () => {
       const btDevice = bluetooth.getDevice(device.hub, device.port)
       if (btDevice) {
         btDevice[method](averageValue)
+        currentSpeed[device.hub + device.port] = averageValue;
       }
     })
   })
