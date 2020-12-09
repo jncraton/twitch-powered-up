@@ -28,7 +28,7 @@ const onMessageHandler = (target, context, msg, self) => {
 
   // Remove whitespace from chat message
   const message = msg.trim().toLowerCase()
-  messages.add(message)
+  messages.add(message, context.username)
 }
 
 // shows that we have connected to the twitch account

@@ -42,10 +42,18 @@ const actionTokenFromMessage = (msg) => {
   return token
 }
 
-const add = (message) => {
+const add = (message, username = '') => {
   const token = actionTokenFromMessage(message)
+  token.username = username
 
   if (token.hub && token.port && token.method) {
+    // Remove old tokens from this user for this hub, port, and method
+    tokens = tokens.filter(t =>
+      token.hub !== t.hub ||
+      token.port !== t.port ||
+      token.method !== t.method ||
+      token.username !== t.username
+    )
     tokens.push(token)
   }
 }
