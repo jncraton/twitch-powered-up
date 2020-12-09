@@ -19,13 +19,13 @@
   },
   "homepage": "https://github.com/jncraton/twitch-powered-up#readme",
   "dependencies": {
-    "debug": "^4.3.1",
     "jsonschema": "^1.4.0",
     "node-poweredup": "^6.7.0",
-    "save": "^2.4.0",
-    "standard": "^14.3.4",
     "tmi.js": "^1.5.0",
     "xdg-basedir": "^4.0.0"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
   },
   "bin": {
     "twitch-powered-up": "bin/twitch-powered-up.js",
