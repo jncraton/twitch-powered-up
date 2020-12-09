@@ -90,21 +90,30 @@ The `twitch` section is used to configure stream keys and parameters. The follow
 
 You should also add your account's username and channel name to config file.
 
+### Stream
+
+- A webcam will be used to see the device you are interacting with. The framerate and quality preset are in the example config file, and these may need to change depending on your webcam. Twitch provides [recommendations for encoding settings](https://stream.twitch.tv/encoding/).
+
 Usage
 ------------
-- A webcam will be used to see the device you are interacting with through the chat. The framerate and quality preset are filled in in the exampleConfig file, these will need to change depending on your webcam. The link below leads to Twitch's recommendation for streaming with different webcams.
-- [Twitch's recommendation](https://stream.twitch.tv/encoding/)
-- Run the command "npm start".
-- Turn on the hubs and set them to pair, the program will begin scanning for hubs upon start, and the Bluetooth will pair automatically. 
-- With the twitch stream chat running, it will also automatically connect to the chat.
-- The example below will explain using the chat to control the train.
 
-Example
-------------
+The program is run as:
 
-- This example is for the train motor and with the motor named "red train"
-- The line "red train go 50" in the chat will make the red train go forwards at a speed of 50, but if more commands are given it will average the speed. 
-- Only what you want pulled out of the phrase will be accepted as well, so you don't need to arrange the words you want in any way, they just all need to be in the phrase. So for example: "I want the red train to move forward at a speed of 50" will only pull out "red train", "forward", and "50". 
+```
+twitch-powered-up
+```
+
+Assuming that it has been configured correctly, it should run until killed.
+
+The program will connect to the chat and begin streaming. It will begin scanning for hubs upon start. Turn on the hubs and the Bluetooth will pair automatically.
+
+### Chat Example
+
+This example is for the train motor and with the motor named "red train".
+
+- The message "red train go 50" in the chat will make the red train go forwards at a speed of 50
+- If more commands are given by other users, it will average the speed
+- You don't need to arrange the words you want in any way, they just all need to be in the phrase. For example: "I want the red train to move forward at a speed of 50" will only pull out "red train", "forward", and "50".
 
 System Overview
 ---------------
