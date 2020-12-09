@@ -49,6 +49,25 @@
                     ],
                     "value": -50,
                     "multiplier": -1
+                },
+                {
+                    "method": "setPower",
+                    "verbs": [
+                        "faster",
+                        "quicker"
+                    ],
+                    "value": 50,
+                    "relative": true
+                },
+                {
+                    "method": "setPower",
+                    "verbs": [
+                        "slower",
+                        "decelerate"
+                    ],
+                    "value": 50,
+                    "multiplier": -1,
+                    "relative": true
                 }
             ]
         },

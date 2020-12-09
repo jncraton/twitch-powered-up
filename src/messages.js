@@ -33,6 +33,11 @@ const actionTokenFromMessage = (msg) => {
   } catch (e) {
     debug('no value found')
   }
+
+  if (token.relative) {
+    token.value += getAverageValue(token.hub, token.port, token.method)
+  }
+
   token.time = new Date().getTime()
   return token
 }
