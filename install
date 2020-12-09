@@ -11,5 +11,6 @@ npm install -g twitch-powered-up
 sudo setcap cap_net_raw+eip $(eval readlink -f $(which node))
 
 # Add binary to PATH
+export PATH=$HOME/.npm/bin:$PATH
 echo "export PATH=$HOME/.npm/bin:$PATH" >> ~/.profile
 source ~/.profile
