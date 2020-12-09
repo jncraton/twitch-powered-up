@@ -2,10 +2,9 @@ const twitch = require('./twitch')
 const bluetooth = require('./bluetooth')
 const configjs = require('./config')
 const stream = require('./stream')
+const messages = require('./messages')
 
-let tokens = []
 let config
-let currentSpeed = {}
 
 const init = async () => {
   try {
@@ -20,6 +19,7 @@ const init = async () => {
   bluetooth.startScan()
   setInterval(update, 100)
   stream.start(config)
+  messages.setAllowedDevices(config.devices)
 }
 
 const onMessageHandler = (target, context, msg, self) => {
@@ -28,16 +28,7 @@ const onMessageHandler = (target, context, msg, self) => {
 
   // Remove whitespace from chat message
   const message = msg.trim().toLowerCase()
-  const token = twitch.actionTokenFromMessage(message, config)
-
-  if (token.hub && token.port && token.method) {
-    if(token.relative) {
-      if(currentSpeed[token.hub + token.port]) {
-        token.value = currentSpeed[token.hub + token.port] + token.value * ((typeof token.multiplier != 'undefined') ? token.multiplier : 1)
-      }
-    }
-    tokens.push(token)
-  }
+  messages.add(message)
 }
 
 // shows that we have connected to the twitch account
@@ -46,29 +37,16 @@ const onConnectedHandler = (addr, port) => {
 }
 
 const update = () => {
-  const now = new Date().getTime()
-
-  // Filter out expired tokens
-  tokens = tokens.filter(token => now - token.time < config.twitch.messageLifetime)
-
+  messages.expire(config.twitch.messageLifetime)
   // Sort tokens by device and method and call method using average value
   config.devices.forEach(device => {
     const methods = new Set(device.actions.map(action => action.method))
     methods.forEach(method => {
-      const deviceMethodTokens = tokens.filter(token =>
-        token.hub === device.hub &&
-        token.port === device.port &&
-        token.method === method
-      )
-
-      const averageValue = deviceMethodTokens.reduce((avg, token) =>
-        token.value * token.multiplier / deviceMethodTokens.length + avg
-      , 0)
+      const averageValue = messages.getAverageValue(device.hub, device.port, method)
 
       const btDevice = bluetooth.getDevice(device.hub, device.port)
       if (btDevice) {
         btDevice[method](averageValue)
-        currentSpeed[device.hub + device.port] = averageValue;
       }
     })
   })
