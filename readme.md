@@ -44,22 +44,47 @@ It should also be compatible with any [devices supported by node-poweredup](http
 Installation
 ------------
 
-These instructions assume that you are installing and running the software on a Raspberry Pi 4 running [Raspberry Pi OS](https://www.raspberrypi.org/software/).
+These instructions assume that you are installing and running the software on a Raspberry Pi 4 running [Raspberry Pi OS](https://www.raspberrypi.org/software/). Any of the base images should be fine. This has been tested using the lite image.
 
 ### Dependencies
 
-We first install a number of dependencies. Depending on you're OS there are [certain dependencies that also need to be set up.](https://github.com/abandonware/noble#prerequisites).
+We first install a number of dependencies on our Pi. If you are using another device or OS, there may be [other dependencies](https://github.com/abandonware/noble#prerequisites) that also need to be installed.
 
 ```
-sudo apt install npm ffmpeg bluetooth bluez libbluetooth-dev libudev-dev
+sudo apt install -y npm ffmpeg bluetooth bluez libbluetooth-dev libudev-dev
 ```
 
 ### Package
 
-The following command will download the package from npm and configure it to be accessible globally on your system.
+The following command will download the package from npm and configure it to be accessible globally on your system. The first two lines work around an issue installing a few packages globally on the Pi.
 
 ```
+npm config set prefix '~/.npm'
 npm install -g twitch-powered-up
+```
+
+### Permissions
+
+`node` needs permission to access BLE messages. We can grant is permission like this:
+
+```
+sudo setcap cap_net_raw+eip $(eval readlink -f $(which node))
+```
+
+We probably also want our npm global binaries available in our path:
+
+```
+echo "export PATH=$HOME/.npm/bin:$PATH" >> ~/.profile
+source ~/.profile
+```
+
+Quick Install
+-------------
+
+If you would prefer, you can also automate the above steps by simply running:
+
+```
+curl https://raw.githubusercontent.com/jncraton/twitch-powered-up/install | sudo bash -
 ```
 
 Configuration
