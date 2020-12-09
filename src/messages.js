@@ -1,5 +1,3 @@
-const debug = require('debug')('messages')
-
 let tokens = []
 let devices
 
@@ -26,13 +24,14 @@ const actionTokenFromMessage = (msg) => {
     }
   })
 
-  try {
-    token.value = parseInt(msg.match(/-?\d+/)[0])
-    token.value = Math.max(token.value, token.min)
-    token.value = Math.min(token.value, token.max)
-  } catch (e) {
-    debug('no value found')
+  const numbers = msg.match(/-?\d+/)
+
+  if (numbers) {
+    token.value = parseInt(numbers[0])
   }
+
+  token.value = Math.max(token.value, token.min)
+  token.value = Math.min(token.value, token.max)
 
   if (token.relative) {
     token.value += getAverageValue(token.hub, token.port, token.method)
