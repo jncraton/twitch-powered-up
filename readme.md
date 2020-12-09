@@ -17,7 +17,7 @@ This is similar in concept to the classic [Twitch Plays Pokemon](https://en.wiki
 Installation
 ------------
 
-We assume you are using a Raspberry Pi 4 running [Raspberry Pi OS](https://www.raspberrypi.org/software/). Any of the base images should be fine. This has been tested using the lite image. The following command is the simplest way to get started:
+We assume you are using a Raspberry Pi 4 running the latest [Raspberry Pi OS](https://www.raspberrypi.org/software/). The following command is the simplest way to get started:
 
 ```
 curl https://raw.githubusercontent.com/jncraton/twitch-powered-up/master/install | bash -
