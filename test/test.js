@@ -1,5 +1,5 @@
-const twitch = require('./twitch')
-const twitchPoweredUp = require('./twitchPoweredUp')
+const messages = require('./messages')
+const config = require('./config')
 
-twitch.test()
-twitchPoweredUp.test()
+config.test()
+messages.test()

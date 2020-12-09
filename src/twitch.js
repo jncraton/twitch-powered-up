@@ -1,5 +1,3 @@
-// import the js library needed to work in twitch
-const debug = require('debug')('twitch')
 const tmi = require('tmi.js')
 const fs = require('fs')
 
@@ -43,34 +41,4 @@ const refresh = (connectionObj, onMessageHandler, onConnectedHandler, config) =>
   })
 }
 
-const actionTokenFromMessage = (msg, config) => {
-  let token = {
-    multiplier: 1,
-    min: -100,
-    max: 100
-  }
-
-  config.devices.forEach(device => {
-    if (device.nouns.some(n => msg.includes(n))) {
-      token = Object.assign(token, device)
-
-      device.actions.forEach(action => {
-        if (action.verbs.some(v => msg.includes(v))) {
-          token = Object.assign(token, action)
-        }
-      })
-    }
-  })
-
-  try {
-    token.value = parseInt(msg.match(/-?\d+/)[0])
-    token.value = Math.max(token.value, token.min)
-    token.value = Math.min(token.value, token.max)
-  } catch (e) {
-    debug('no value found')
-  }
-  token.time = new Date().getTime()
-  return token
-}
-
-module.exports = { actionTokenFromMessage, connect }
+module.exports = { connect }
