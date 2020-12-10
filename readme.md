@@ -121,12 +121,11 @@ This example is for the train motor with the motor named "red train".
 System Overview
 ---------------
 
-![Basic system diagram](https://github.com/jncraton/twitch-powered-up/blob/media/diagram.png?raw=true)
+1. A webcam is streamed via Twitch showing the live state of the LEGO model.
+2. LEGO Powered Up hubs are paired via Bluetooth.
+3. A Twitch chat room is monitored for commands to control LEGO elements connected to hubs. Similar command messages from different viewers will have their values averaged.
 
-- LEGO Powered Up hubs are paired with a host device (Raspberry Pi) via Bluetooth.
-- Host device monitors a Twitch chat room for commands and uses commands to control LEGO elements connected to hubs.
-- Host device streams a webcam via Twitch showing the live state of the LEGO model.
-- Command messages will be averaged for speeds and brightness.
+![Basic system diagram](https://github.com/jncraton/twitch-powered-up/blob/media/diagram.png?raw=true)
 
 Supported Hardware
 ------------------
