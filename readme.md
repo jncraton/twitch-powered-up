@@ -142,3 +142,8 @@ Contributing
 ------------
 
 Contributions to this project are welcome. If you have suggestions for features, improvements, or bug fixes, please suggest them via Issues or Pull Requests. For our Javascript code, we follow [Standard JS](https://standardjs.com/) style.
+
+Special Thanks
+--------------
+
+This software was created by [Anderson University](https://anderson.edu/) students. Thanks go to Will Clemens (@waclemens), Amberlie Jock (@AmberlieJock), Dan Keesling (@dpkeesling), Noah Schram (@nsschram), and Stephen Vickery (@sjvickery) for all of their hard work on this project.
