@@ -56,8 +56,7 @@
               "required": true
             },
             "videoFilter": {
-              "type": "string",
-              "required": false
+              "type": "string"
             }
           }
         }
@@ -91,6 +90,13 @@
               "type": "object",
               "required": true,
               "properties": {
+                "verbs": {
+                  "type": "array",
+                  "required": true,
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "method": {
                   "type": "string",
                   "required": true
@@ -102,12 +108,11 @@
                 "multiplier": {
                   "type": "int"
                 },
-                "verbs": {
-                  "type": "array",
-                  "required": true,
-                  "items": {
-                    "type": "string"
-                  }
+                "lifetime": {
+                  "type": "int"
+                },
+                "relative": {
+                  "type": "boolean"
                 }
               }
             }
