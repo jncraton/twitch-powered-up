@@ -4,11 +4,11 @@ const fs = require('fs')
 const connect = (onMessageHandler, onConnectedHandler, config) => {
   const connectionObj = {
     identity: {
-      username: config.twitch.username,
-      password: config.twitch.auth
+      username: config.twitch.chat.username,
+      password: config.twitch.chat.auth
     },
     channels: [
-      config.twitch.channel
+      config.twitch.chat.channel
     ]
   }
 
@@ -24,12 +24,12 @@ const connect = (onMessageHandler, onConnectedHandler, config) => {
 }
 
 const refresh = (connectionObj, onMessageHandler, onConnectedHandler, config) => {
-  const URL = 'https://twitchtokengenerator.com/api/refresh/' + config.twitch.refresh
+  const URL = 'https://twitchtokengenerator.com/api/refresh/' + config.twitch.chat.refresh
   require('https').get(URL, (res) => {
     res.setEncoding('utf8')
     res.on('data', function (body) {
-      config.twitch.auth = JSON.parse(body).token
-      connectionObj.identity.password = config.twitch.auth
+      config.twitch.chat.auth = JSON.parse(body).token
+      connectionObj.identity.password = config.twitch.chat.auth
 
       fs.writeFileSync('config.json', JSON.stringify(config, null, 4))
 

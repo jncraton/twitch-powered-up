@@ -37,7 +37,7 @@ const onConnectedHandler = (addr, port) => {
 }
 
 const update = () => {
-  messages.expire(config.twitch.messageLifetime)
+  messages.expire(config.twitch.chat.messageLifetime)
   // Sort tokens by device and method and call method using average value
   config.devices.forEach(device => {
     const methods = new Set(device.actions.map(action => action.method))

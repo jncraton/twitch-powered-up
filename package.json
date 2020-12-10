@@ -25,7 +25,8 @@
     "xdg-basedir": "^4.0.0"
   },
   "devDependencies": {
-    "standard": "^14.3.4"
+    "standard": "^14.3.4",
+    "json-schema-to-markdown": "^1.1.1"
   },
   "bin": {
     "twitch-powered-up": "bin/twitch-powered-up.js",

@@ -1,62 +1,98 @@
 {
+  "title": "Config",
   "type": "object",
+  "required": [
+    "twitch",
+    "devices"
+  ],
   "properties": {
     "twitch": {
       "type": "object",
+      "description": "Settings related to authenticaion and streaming to Twitch.",
+      "required": [
+        "chat",
+        "stream"
+      ],
       "properties": {
-        "auth": {
-          "type": "string",
-          "required": true
-        },
-        "refresh": {
-          "type": "string",
-          "required": true
-        },
-        "username": {
-          "type": "string",
-          "required": true
-        },
-        "channel": {
-          "type": "string",
-          "required": true
-        },
-        "messageLifetime": {
-          "type": "int",
-          "required": true
+        "chat": {
+          "type": "object",
+          "description": "Options related to the Twitch chat.",
+          "required": [
+            "auth",
+            "refresh",
+            "username",
+            "channel",
+            "messageLifetime"
+          ],
+          "properties": {
+            "auth": {
+              "type": "string",
+              "description": "OAuth token for chat authentication."
+            },
+            "refresh": {
+              "type": "string",
+              "description": "OAuth refresh token used in case of token expiration."
+            },
+            "username": {
+              "type": "string",
+              "description": "Username to use for the chat bot."
+            },
+            "channel": {
+              "type": "string",
+              "description": "Twitch channel that the bot will join."
+            },
+            "messageLifetime": {
+              "type": "int",
+              "description": "Default lifetime for a message in milliseconds.",
+              "minimum": 0
+            }
+          }
         },
         "stream": {
           "type": "object",
+          "description": "Options related to the Twitch stream.",
+          "required": [
+            "key",
+            "framerate",
+            "ingestServer",
+            "displayDevice",
+            "qualityPreset",
+            "bitrate",
+            "videoSize"
+          ],
           "properties": {
-            "streamKey": {
+            "key": {
               "type": "string",
-              "required": true
+              "description": "Stream key provided by Twitch for stream authentication."
             },
             "framerate": {
-              "type": "string",
-              "required": true
+              "type": "int",
+              "description": "Framerate in frames per second to use for the stream.",
+              "minimum": 0
             },
             "ingestServer": {
               "type": "string",
-              "required": true
+              "description": "Twitch server to use for the stream connection. The default value is probably fine, but you may want a closer server to reduce latency."
             },
             "displayDevice": {
               "type": "string",
-              "required": true
+              "description": "File name of the video device you are streaming from"
             },
             "qualityPreset": {
               "type": "string",
-              "required": true
+              "description": "ffmpeg encoding preset"
             },
             "bitrate": {
               "type": "string",
-              "required": true
+              "description": "Target bitrate for ffmpeg stream output"
             },
             "videoSize": {
               "type": "string",
-              "required": true
+              "description": "Resolution of camera input"
             },
             "videoFilter": {
-              "type": "string"
+              "type": "string",
+              "description": "Any desired ffmpeg video filters"
             }
           }
         }
@@ -64,55 +100,69 @@
     },
     "devices": {
       "type": "array",
-      "required": true,
+      "description": "List of devices to pair with and control",
       "items": {
         "type": "object",
+        "required": [
+          "hub",
+          "port",
+          "nouns",
+          "actions"
+        ],
         "properties": {
           "hub": {
             "type": "string",
-            "required": true
+            "description": "Name of the hub. This is can be discovered and set in the Powered Up mobile app or using our `tpu-rename-hub` script."
           },
           "port": {
             "type": "string",
-            "required": true
+            "description": "Port letter the device is attached to",
+            "maxLength": 1
           },
           "nouns": {
             "type": "array",
-            "required": true,
+            "description": "Word list that will cause chat messages to apply to this device",
             "items": {
               "type": "string"
             }
           },
           "actions": {
             "type": "array",
-            "required": true,
+            "description": "Actions to apply to this device from chat messages",
             "items": {
               "type": "object",
-              "required": true,
+              "required": [
+                "verbs",
+                "method",
+                "value"
+              ],
               "properties": {
                 "verbs": {
                   "type": "array",
-                  "required": true,
+                  "description": "Words that will trigger this action from a chat message",
                   "items": {
                     "type": "string"
                   }
                 },
                 "method": {
                   "type": "string",
-                  "required": true
+                  "description": "node-poweredup method to call on this device"
                 },
                 "value": {
                   "type": "int",
-                  "required": true
+                  "description": "Default value to pass as the first argument to the method"
                 },
                 "multiplier": {
-                  "type": "int"
+                  "type": "int",
+                  "description": "Value multiplier. This defaults to 1."
                 },
                 "lifetime": {
-                  "type": "int"
+                  "type": "int",
+                  "description": "Lifetime in milliseconds for this action"
                 },
                 "relative": {
-                  "type": "boolean"
+                  "type": "boolean",
+                  "description": "If true, the value for the method call will be summed with the current average"
                 }
               }
             }

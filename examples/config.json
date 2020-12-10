@@ -1,19 +1,21 @@
 {
     "twitch": {
-        "auth": "{OAuthToken}",
-        "refresh": "{OAuthRefreshToken}",
-        "username": "twitchpoweredup",
-        "channel": "twitchpoweredup",
-        "messageLifetime": 5000,
+        "chat": {
+            "auth": "{OAuthToken}",
+            "refresh": "{OAuthRefreshToken}",
+            "username": "twitchpoweredup",
+            "channel": "twitchpoweredup",
+            "messageLifetime": 5000
+        },
         "stream" : {
-            "streamKey": "{StreamKey}",
+            "key": "{StreamKey}",
             "ingestServer": "live-ord02",
             "displayDevice": "/dev/video0",
             "framerate": "30",
             "qualityPreset": "ultrafast",
-            "bitrate": "1000k",
+            "bitrate": "3000k",
             "videoSize": "640x480",
-            "videoFilterx": "crop=640:360:0:60"
+            "videoFilters": "crop=640:360:0:60"
         }
     },
     "devices": [

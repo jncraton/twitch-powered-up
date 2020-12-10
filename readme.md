@@ -60,13 +60,13 @@ The application expects a valid configuration file to be present as `~/.config/t
 twitch-powered-up
 ```
 
-The example configuration file `~/.config/twitch-powered-up.json` can now be edited using the program of your choice. 
+The example configuration file `~/.config/twitch-powered-up.json` can be edited using the text editor of your choice. For example:
 
-### Devices
+```
+nano ~/.config/twitch-powered-up.json
+```
 
-The `devices` section is used to map `nouns` and `actions` to a port on a hub.
-
-Ports are identified using the single capital letter stamped on the device (`A`, `B`, etc). Hubs are identified by their configured names. Names can be discovered and changed using the Powered Up mobile app, or by using the `tpu-rename-hub` script included with this project.
+The complete [config schema with field descriptions](examples/config-schema.md) is available.
 
 ### Twitch
 
@@ -82,7 +82,13 @@ You should also add your account's username and channel name to config file.
 
 ### Stream
 
-- A webcam will be used to see the device you are interacting with. The framerate and quality preset are in the example config file, and these may need to change depending on your webcam. Twitch provides [recommendations for encoding settings](https://stream.twitch.tv/encoding/).
+A webcam will be used to see the device you are interacting with. The framerate and quality preset are in the example config file, and these may need to change depending on your webcam. Twitch provides [recommendations for encoding settings](https://stream.twitch.tv/encoding/).
+
+### Devices
+
+The `devices` section is used to map `nouns` and `actions` to a port on a hub.
+
+Ports are identified using the single capital letter stamped on the device (`A`, `B`, etc). Hubs are identified by their configured names. Names can be discovered and changed using the Powered Up mobile app, or by using the `tpu-rename-hub` script included with this project.
 
 Usage
 ------------
