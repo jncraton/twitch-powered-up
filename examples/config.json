@@ -13,7 +13,7 @@
             "qualityPreset": "ultrafast",
             "bitrate": "1000k",
             "videoSize": "640x480",
-            "videoFilter": "crop=640:360:0:60"
+            "videoFilterx": "crop=640:360:0:60"
         }
     },
     "devices": [

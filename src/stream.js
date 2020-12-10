@@ -14,7 +14,7 @@ function start (config) {
     -tune zerolatency \
     -vcodec libx264 \
     -r ${config.twitch.stream.framerate} \
-    -vf ${config.twitch.stream.videoFilter} \
+    ${config.twitch.stream.videoFilter ? '-vf ' + config.twitch.stream.videoFilter : ''} \
     -g 30 \
     -pix_fmt yuv420p \
     -preset ${config.twitch.stream.qualityPreset} \
