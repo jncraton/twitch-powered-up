@@ -17,15 +17,7 @@ This is similar in concept to the classic [Twitch Plays Pokemon](https://en.wiki
 Installation
 ------------
 
-We assume you are using a Raspberry Pi 4 running the latest [Raspberry Pi OS](https://www.raspberrypi.org/software/). The following is the simplest way to get started:
-
-```
-curl https://raw.githubusercontent.com/jncraton/twitch-powered-up/master/install | bash -
-source ~/.profile
-```
-
-<details>
-    <summary>Detailed install instructions</summary>
+We assume you are using a Raspberry Pi 4 running the latest [Raspberry Pi OS](https://www.raspberrypi.org/software/).
 
 ### Dependencies
 
@@ -35,16 +27,7 @@ We first install a number of dependencies on our Pi. If you are using another de
 sudo apt install -y npm ffmpeg bluetooth bluez libbluetooth-dev libudev-dev
 ```
 
-### Package
-
-The following command will download the package from npm and configure it to be accessible globally on your system. The first two lines work around an issue installing a few packages globally on the Pi.
-
-```
-npm config set prefix '~/.npm'
-npm install -g twitch-powered-up
-```
-
-### Permissions
+### Bluetooth Permissions
 
 `node` needs permission to access BLE messages. We can grant is permission like this:
 
@@ -52,14 +35,21 @@ npm install -g twitch-powered-up
 sudo setcap cap_net_raw+eip $(eval readlink -f $(which node))
 ```
 
-We probably also want our npm global binaries available in our path:
+### Package
+
+If you don't already have npm configured to allow you to install packages globally, the following commands will take care of this for you:
 
 ```
+npm config set prefix '~/.npm'
 echo "export PATH=$HOME/.npm/bin:$PATH" >> ~/.profile
 source ~/.profile
 ```
 
-</details>
+The following command will download the package from npm and install it to be accessible on your system.
+
+```
+npm install -g twitch-powered-up
+```
 
 Configuration
 -------------
