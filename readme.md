@@ -2,6 +2,7 @@ Twitch Powered Up
 =================
 
 ![build](https://github.com/jncraton/twitch-powered-up/workflows/build/badge.svg)
+![npm version](https://img.shields.io/npm/v/twitch-powered-up.svg)
 
 Interact with LEGO Powered Up elements via Twitch chat using a Raspberry Pi.
 
