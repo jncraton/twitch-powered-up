@@ -5,6 +5,8 @@ Twitch Powered Up
 
 Software to interact with the LEGO Powered Up elements via Twitch chat using a Raspberry Pi.
 
+---
+
 [Live Demo](https://www.twitch.tv/twitchpoweredup) (available until 5pm EST) | [Discuss on Hacker News](https://news.ycombinator.com)
 
 Overview
