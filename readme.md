@@ -6,7 +6,7 @@ Twitch Powered Up
 [![npm version](https://img.shields.io/npm/v/twitch-powered-up)](https://www.npmjs.com/package/twitch-powered-up)
 [![npm downloads](https://img.shields.io/npm/dm/twitch-powered-up)](https://www.npmjs.com/package/twitch-powered-up)
 
-Interact with LEGO Powered Up elements via Twitch chat using a Raspberry Pi.
+Interact with LEGO Powered Up elements via Twitch chat and a Raspberry Pi
 
 ---
 
