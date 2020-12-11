@@ -1,9 +1,16 @@
 Twitch Powered Up
 =================
 
+[![Twitch Status](https://img.shields.io/twitch/status/twitchpoweredup)](https://www.twitch.tv/twitchpoweredup)
+[![npm version](https://img.shields.io/npm/v/twitch-powered-up)](https://www.npmjs.com/package/twitch-powered-up)
+[![npm downloads](https://img.shields.io/npm/dm/twitch-powered-up)](https://www.npmjs.com/package/twitch-powered-up)
 ![build](https://github.com/jncraton/twitch-powered-up/workflows/build/badge.svg)
 
-Software to interact with the LEGO Powered Up elements via Twitch chat using a Raspberry Pi.
+Interact with LEGO Powered Up elements via Twitch chat and a Raspberry Pi
+
+---
+
+[Live Demo](https://www.twitch.tv/twitchpoweredup) (available until 5pm EST) | [Discuss on Hacker News](https://news.ycombinator.com/item?id=25385755)
 
 Overview
 --------
@@ -12,7 +19,7 @@ A LEGO model is streamed via Twitch.tv, and viewers are able to control it by se
 
 ![Demo video](https://github.com/jncraton/twitch-powered-up/blob/media/demo-optimized.gif?raw=true)
 
-This is similar in concept to the classic [Twitch Plays Pokemon](https://en.wikipedia.org/wiki/Twitch_Plays_Pok%C3%A9mon) ([video](https://www.twitch.tv/videos/40790582)), and is inspired by an old [question on Bricks Stack Exchange](https://bricks.stackexchange.com/questions/10486/can-powered-up-trains-talk-to-multiple-bluetooth-remotes) asking about the ability for multiple users to control a single LEGO train.
+This is similar in concept to the classic [Twitch Plays Pokemon](https://en.wikipedia.org/wiki/Twitch_Plays_Pok%C3%A9mon) ([video](https://www.twitch.tv/videos/40790582)), and is inspired by a [question on Bricks Stack Exchange](https://bricks.stackexchange.com/q/10486/708) asking about the ability for multiple users to control a single LEGO train.
 
 Installation
 ------------
@@ -114,12 +121,11 @@ This example is for the train motor with the motor named "red train".
 System Overview
 ---------------
 
-![Basic system diagram](https://github.com/jncraton/twitch-powered-up/blob/media/diagram.png?raw=true)
+1. A webcam is streamed via Twitch showing the live state of the LEGO model.
+2. LEGO Powered Up hubs are paired via Bluetooth.
+3. A Twitch chat room is monitored for commands to control LEGO elements connected to hubs. Similar command messages from different viewers will have their values averaged.
 
-- LEGO Powered Up hubs are paired with a host device (Raspberry Pi) via Bluetooth.
-- Host device monitors a Twitch chat room for commands and uses commands to control LEGO elements connected to hubs.
-- Host device streams a webcam via Twitch showing the live state of the LEGO model.
-- Command messages will be averaged for speeds and brightness.
+![Basic system diagram](https://github.com/jncraton/twitch-powered-up/blob/media/diagram.png?raw=true)
 
 Supported Hardware
 ------------------
