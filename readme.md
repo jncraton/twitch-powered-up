@@ -10,7 +10,7 @@ Interact with LEGO Powered Up elements via Twitch chat and a Raspberry Pi
 
 ---
 
-[Live Demo](https://www.twitch.tv/twitchpoweredup) (available until 5pm EST) | [Discuss on Hacker News](https://news.ycombinator.com/item?id=25385755)
+[Live Demo](https://www.twitch.tv/twitchpoweredup) (available until 5pm EST) | [Discuss on Reddit](https://www.reddit.com/r/node/comments/kb34dp/twitch_chat_controlled_lego_train_built_on_nodejs/)
 
 Overview
 --------
